@@ -20,14 +20,16 @@
 			var wolfes = [];
 			var holes = [];
 			var walls = [];
+			var targets = [];
 			var cursor = new Cursor(canvas);
-			var target = new Target(130, 250, 100);
-			holes.push(new Hole(400, 300, 30));
+			targets.push(new Target(130, 450, 50, 20, true));
+			targets.push(new Target(130, 150, 50, 20, true));
+			/*holes.push(new Hole(400, 300, 30));
 			wolfes.push(new Wolf(790, 20));
 			wolfes.push(new Wolf(790, 300));
 			wolfes.push(new Wolf(790, 580));
 			walls.push(new Wall(240, 100, 50, 400));
-			walls.push(new Wall(540, 200, 50, 200));
+			walls.push(new Wall(540, 200, 50, 200));*/
 			var bound = {
 				min : new vec(10, 10), 
 				max : new vec(canvas.width - 10, canvas.height - 10)
@@ -41,7 +43,9 @@
 			var drawInterval = setInterval(function() {
 				ctx.fillStyle = "rgb(140, 140, 255)";
 				ctx.fillRect(0, 0, canvas.width, canvas.height);
-				target.draw(ctx);
+				for(var key in targets) {
+					targets[key].draw(ctx);
+				}
 				for(var key in wolfes) {
 					wolfes[key].draw(ctx);
 				}
@@ -70,7 +74,13 @@
 						lost();
 					}
 				}
-				if(target.tick(sheeps)) {
+				var won = true;
+				for(var key in targets) {
+					if(!targets[key].tick(sheeps)) {
+						won = false;
+					}
+				}
+				if(won) {
 					win();
 				}
 			}, 100/FPS);
