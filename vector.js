@@ -34,5 +34,8 @@ vec.prototype = {
 		var x = this.x > max.x ? max.x : this.x < min.x ? min.x : this.x;
 		var y = this.y > max.y ? max.y : this.y < min.y ? min.y : this.y;
 		return new vec(x, y);
+	},
+	equals : function(v) {
+		return v.x == this.x && v.y == this.y;
 	}
 };

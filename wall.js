@@ -9,5 +9,8 @@ Wall.prototype = {
 		ctx.fillStyle = "white";
 		ctx.rect(this.pos.x, this.pos.y, this.size.x, this.size.y);
 		ctx.fill();
+	},
+	tick : function() {
+		
 	}
 };

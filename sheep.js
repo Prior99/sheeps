@@ -14,7 +14,6 @@ Sheep.prototype = {
 		var len = vec.length();
 		vec = vec.normalize();
 		var speed = (1/len)*50;
-		var oldpos = this.pos;
 		this.pos = this.pos.add(vec.mult(speed));
 		this.pos = this.pos.bound(bound.min, bound.max);
 		/*
@@ -23,13 +22,11 @@ Sheep.prototype = {
 		for(var key in walls) {
 			var wall = walls[key];
 			if(this.pos.x >= wall.pos.x - 4 && this.pos.x <= wall.pos.x + wall.size.x + 4 &&
-			   this.pos.y >= wall.pos.y - 4 && this.pos.y <= wall.pos.y + wall.size.y + 4) {
-				if(this.pos.x >= wall.pos.x - 4 && this.pos.x <= wall.pos.x + wall.size.x + 4) {
-					this.pos.x = oldpos.x;
-				}
-				if(this.pos.y >= wall.pos.y - 4 && this.pos.y <= wall.pos.y + wall.size.y + 4) {
-					this.pos.y = oldpos.y;
-				}
+			 this.pos.y >= wall.pos.y - 4 && this.pos.y <= wall.pos.y + wall.size.y + 4) {
+				if(this.pos.x <= wall.pos.x) this.pos.x = wall.pos.x - 5;
+				if(this.pos.x >= wall.pos.x + wall.size.x) this.pos.x = wall.pos.x + wall.size.x + 5;
+				if(this.pos.y <= wall.pos.y) this.pos.y = wall.pos.y - 5;
+				if(this.pos.y >= wall.pos.y + wall.size.y) this.pos.y = wall.pos.y + wall.size.y + 5;			
 			}
 		}
 	}

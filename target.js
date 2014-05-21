@@ -9,7 +9,7 @@ var Target = function(x, y, radius, amount,sticky) {
 Target.prototype = {
 	draw : function(ctx) {
 		ctx.beginPath();
-		ctx.fillStyle = "rgb(180, 120, 120)";
+		ctx.fillStyle = "rgb(120, 255, 120)";
 		ctx.arc(this.pos.x, this.pos.y, this.radius, 0, 2 * Math.PI);
 		ctx.fill();
 		ctx.fillStyle = "white";
@@ -21,13 +21,15 @@ Target.prototype = {
 			this.count = 0;
 		}
 		var f = true;
-		for(var key in sheeps) {
-			var sheep = sheeps[key];
-			var vec = this.pos.sub(sheep.pos);
-			if(vec.length() <= this.radius) {
-				this.count++;
-				if(this.sticky) {
-					sheeps.splice(sheeps.indexOf(sheep), 1);
+		if(this.sticky && this.count < this.amount) {
+			for(var key in sheeps) {
+				var sheep = sheeps[key];
+				var vec = this.pos.sub(sheep.pos);
+				if(vec.length() <= this.radius) {
+					this.count++;
+					if(this.sticky) {
+						sheeps.splice(sheeps.indexOf(sheep), 1);
+					}
 				}
 			}
 		}
