@@ -6,6 +6,9 @@ var MoveableWall = function(x1, y1, x2, y2, width, height) {
 	];
 	this.target = 0;
 	this.size = new vec(width, height);
+	Game.tickables.push(this);
+	Game.drawables.push(this);
+	Game.walls.push(this);
 };
 
 MoveableWall.prototype = {

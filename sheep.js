@@ -1,21 +1,27 @@
 var Sheep = function(x, y) {
 	this.pos = new vec(x, y);
+	Game.tickables.push(this);
+	Game.drawables.push(this);
+	Game.sheeps.push(this);
 };
 
 Sheep.prototype = {
-	draw : function(ctx) {
+	draw : function() {
+		var ctx = Game.ctx;
 		ctx.beginPath();
 		ctx.fillStyle = "rgb(0, 255, 0)";
 		ctx.arc(this.pos.x, this.pos.y, 4, 0, 2 * Math.PI);
 		ctx.fill();
 	},
-	tick : function(cursor, walls) {
+	tick : function() {
+		var cursor = Game.cursor;
+		var walls = Game.walls;
 		var vec = cursor.pos.sub(this.pos).mult(-1);
 		var len = vec.length();
 		vec = vec.normalize();
 		var speed = (1/len)*50;
 		this.pos = this.pos.add(vec.mult(speed));
-		this.pos = this.pos.bound(bound.min, bound.max);
+		this.pos = this.pos.bound(Game.bound.min, Game.bound.max);
 		/*
 		 * Avoid walls
 		 */
@@ -29,6 +35,15 @@ Sheep.prototype = {
 				if(this.pos.y >= wall.pos.y + wall.size.y) this.pos.y = wall.pos.y + wall.size.y + 5;			
 			}
 		}
+	},
+	die : function() {
+		var index;
+		if((index = Game.sheeps.indexOf(this)) != -1)
+			Game.sheeps.splice(index, 1);
+		if((index = Game.drawables.indexOf(this)) != -1)
+			Game.drawables.splice(index, 1);
+		if((index = Game.tickables.indexOf(this)) != -1)
+			Game.tickables.splice(index, 1);
 	}
 };
 

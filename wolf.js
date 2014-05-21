@@ -1,15 +1,21 @@
 var Wolf = function(x, y) {
 	this.pos = new vec(x, y);
+	Game.tickables.push(this);
+	Game.drawables.push(this);
 }
 
 Wolf.prototype = {
-	draw : function(ctx) {
+	draw : function() {
+		var ctx = Game.ctx;
 		ctx.beginPath();
 		ctx.fillStyle = "rgb(250, 60, 60)";
 		ctx.arc(this.pos.x, this.pos.y, 6, 0, 2 * Math.PI);
 		ctx.fill();
 	},
-	tick : function(sheeps, cursor) {
+	tick : function() {
+		var walls = Game.walls;
+		var sheeps = Game.sheeps;
+		var cursor = Game.cursor;
 		/*
 		 * Hunt nearest sheep
 		 */
@@ -23,10 +29,14 @@ Wolf.prototype = {
 				minSheep = sheep;
 			}
 		}
-		var vec = minSheep.pos.sub(this.pos).normalize();
-		this.pos = this.pos.add(vec.mult(0.3));
-		if(this.pos.sub(minSheep.pos).length() < 6) {
-			sheeps.splice(sheeps.indexOf(sheep), 1);
+		if(minSheep !== undefined) {
+			if(this.pos.sub(minSheep.pos).length() < 2) {
+				minSheep.die();
+			}
+			else {
+				var vec = minSheep.pos.sub(this.pos).normalize();
+				this.pos = this.pos.add(vec.mult(0.3));
+			}
 		}
 		/*
 		 * Be afraid of cursor
@@ -36,7 +46,7 @@ Wolf.prototype = {
 		vec = vec.normalize();
 		var speed = (1/len)*30;
 		this.pos = this.pos.add(vec.mult(speed));
-		this.pos = this.pos.bound(bound.min, bound.max);
+		this.pos = this.pos.bound(Game.bound.min, Game.bound.max);
 		/*
 		 * Avoid walls
 		 */
