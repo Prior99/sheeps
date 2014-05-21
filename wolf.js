@@ -24,6 +24,7 @@ Wolf.prototype = {
 			}
 		}
 		var vec = minSheep.pos.sub(this.pos).normalize();
+		var oldpos = this.pos;
 		this.pos = this.pos.add(vec.mult(0.3));
 		if(this.pos.sub(minSheep.pos).length() < 6) {
 			return true;
@@ -37,6 +38,21 @@ Wolf.prototype = {
 		var speed = (1/len)*30;
 		this.pos = this.pos.add(vec.mult(speed));
 		this.pos = this.pos.bound(bound.min, bound.max);
+		/*
+		 * Avoid walls
+		 */
+		for(var key in walls) {
+			var wall = walls[key];
+			if(this.pos.x >= wall.pos.x - 4 && this.pos.x <= wall.pos.x + wall.size.x + 4 &&
+			   this.pos.y >= wall.pos.y - 4 && this.pos.y <= wall.pos.y + wall.size.y + 4) {
+				if(this.pos.x >= wall.pos.x - 4 && this.pos.x <= wall.pos.x + wall.size.x + 4) {
+					this.pos.x = oldpos.x;
+				}
+				if(this.pos.y >= wall.pos.y - 4 && this.pos.y <= wall.pos.y + wall.size.y + 4) {
+					this.pos.y = oldpos.y;
+				}
+			}
+		}
 		return false;
 	}
 };

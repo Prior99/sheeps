@@ -7,6 +7,7 @@
 		<script type="text/javascript" src="target.js"></script>
 		<script type="text/javascript" src="hole.js"></script>
 		<script type="text/javascript" src="wolf.js"></script>
+		<script type="text/javascript" src="wall.js"></script>
 	</head>
 	<body>
 		<canvas id="canvas" width="800" height="600"></canvas>
@@ -18,12 +19,15 @@
 			var sheeps = [];
 			var wolfes = [];
 			var holes = [];
+			var walls = [];
 			var cursor = new Cursor(canvas);
 			var target = new Target(130, 250, 100);
 			holes.push(new Hole(400, 300, 30));
 			wolfes.push(new Wolf(790, 20));
 			wolfes.push(new Wolf(790, 300));
 			wolfes.push(new Wolf(790, 580));
+			walls.push(new Wall(240, 100, 50, 400));
+			walls.push(new Wall(540, 200, 50, 200));
 			var bound = {
 				min : new vec(10, 10), 
 				max : new vec(canvas.width - 10, canvas.height - 10)
@@ -47,14 +51,17 @@
 				for(var key in sheeps) {
 					sheeps[key].draw(ctx);
 				}
+				for(var key in walls) {
+					walls[key].draw(ctx);
+				}
 				cursor.draw(ctx);
 			}, 100/FPS);
 			var tickInterval = setInterval(function() {
 				for(var key in sheeps) {
-					sheeps[key].tick(cursor);
+					sheeps[key].tick(cursor, walls);
 				}
 				for(var key in wolfes) {
-					if(wolfes[key].tick(sheeps, cursor)) {
+					if(wolfes[key].tick(sheeps, cursor, walls)) {
 						lost();
 					}
 				}
@@ -63,7 +70,9 @@
 						lost();
 					}
 				}
-				target.tick(sheeps);
+				if(target.tick(sheeps)) {
+					win();
+				}
 			}, 100/FPS);
 			
 			function lost() {
