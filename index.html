@@ -12,18 +12,34 @@
 		<script type="text/javascript" src="js/objects/sheep.js"></script>
 	</head>
 	<body>
-		<canvas id="canvas" width="800" height="600"></canvas>
 		<script>
 			var FPS = 30;
-			var canvas = document.getElementById("canvas");
 			$.ajax({
-				url : "levels/level_001.js",
-				dataType : "script"
-			}).done(function() {
-				Game.init(canvas, FPS);
-			}).error(function(obj, err1, err2) {
-				console.log(err1, err2);
+				url : "list.php",
+				dataType : "json"
+			}).done(function(data) {
+				console.log(data);
+				for(var i = 0; i < data.length; i++) {
+					(function(file) {
+						$("<a href='#'>" + data[i] + "</a>").appendTo($("body")).click(function() {
+							startLevel("levels/" +  file);
+						});
+					})(data[i]);
+				}
 			});
+			
+			function startLevel(url) {
+				$("body").html("");
+				var canvas = $('<canvas id="canvas" width="800" height="600"></canvas>').appendTo("body")[0];
+				$.ajax({
+					url : url,
+					dataType : "script"
+				}).done(function() {
+					Game.init(canvas, FPS);
+				}).error(function(obj, err1, err2) {
+					console.log(err1, err2);
+				});
+			}
 		</script>
 	</body>
 </html>
