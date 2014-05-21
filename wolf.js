@@ -26,7 +26,7 @@ Wolf.prototype = {
 		var vec = minSheep.pos.sub(this.pos).normalize();
 		this.pos = this.pos.add(vec.mult(0.3));
 		if(this.pos.sub(minSheep.pos).length() < 6) {
-			return true;
+			sheeps.splice(sheeps.indexOf(sheep), 1);
 		}
 		/*
 		 * Be afraid of cursor
@@ -50,6 +50,5 @@ Wolf.prototype = {
 				if(this.pos.y >= wall.pos.y + wall.size.y) this.pos.y = wall.pos.y + wall.size.y + 5;			
 			}
 		}
-		return false;
 	}
 };

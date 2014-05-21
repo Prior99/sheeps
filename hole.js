@@ -15,9 +15,8 @@ Hole.prototype = {
 			var sheep = sheeps[key];
 			var vec = this.pos.sub(sheep.pos);
 			if(vec.length() <= this.radius) {
-				return true;
+				sheeps.splice(sheeps.indexOf(sheep), 1);
 			}
 		}
-		return false;
 	}
 };
