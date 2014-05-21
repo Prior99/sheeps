@@ -1,6 +1,6 @@
-var Hole = function(x, y, radius) {
-	this.pos = new vec(x, y);
-	this.radius = radius;
+var Hole = function(obj) {
+	this.pos = new vec(obj.pos[0], obj.pos[1]);
+	this.radius = obj.radius;
 	Game.tickables.push(this);
 	Game.drawables.push(this);
 };

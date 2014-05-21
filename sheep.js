@@ -1,5 +1,5 @@
-var Sheep = function(x, y) {
-	this.pos = new vec(x, y);
+var Sheep = function(obj) {
+	this.pos = new vec(obj.pos[0], obj.pos[1]);
 	Game.tickables.push(this);
 	Game.drawables.push(this);
 	Game.sheeps.push(this);

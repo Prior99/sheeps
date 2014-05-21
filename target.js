@@ -1,9 +1,9 @@
-var Target = function(x, y, radius, amount,sticky) {
-	this.pos = new vec(x, y);
-	this.radius = radius;
+var Target = function(obj) {
+	this.pos = new vec(obj.pos[0], obj.pos[1]);
+	this.radius = obj.radius;
 	this.count = 0;
-	this.amount = amount;
-	this.sticky = sticky;
+	this.amount = obj.amount;
+	this.sticky = obj.sticky !== undefined;
 	Game.tickables.push(this);
 	Game.drawables.push(this);
 	Game.targets.push(this);

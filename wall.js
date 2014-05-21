@@ -1,6 +1,6 @@
-var Wall = function(x, y, width, height) {
-	this.pos = new vec(x, y);
-	this.size = new vec(width, height);
+var Wall = function(obj) {
+	this.pos = new vec(obj.pos[0], obj.pos[1]);
+	this.size = new vec(obj.width, obj.height);
 	Game.drawables.push(this);
 	Game.walls.push(this);
 };

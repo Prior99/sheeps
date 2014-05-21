@@ -1,11 +1,11 @@
-var MoveableWall = function(x1, y1, x2, y2, width, height) {
-	this.pos = new vec(x1, y1);
+var MoveableWall = function(obj) {
+	this.pos = new vec(obj.pos[0], obj.pos[1]);
 	this.targets = [
-		new vec(x1, y1),
-		new vec(x2, y2)
+		new vec(obj.loc1[0], obj.loc1[1]),
+		new vec(obj.loc2[0], obj.loc2[1])
 	];
 	this.target = 0;
-	this.size = new vec(width, height);
+	this.size = new vec(obj.width, obj.height);
 	Game.tickables.push(this);
 	Game.drawables.push(this);
 	Game.walls.push(this);
