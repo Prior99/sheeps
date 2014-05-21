@@ -3,6 +3,7 @@ var Game = {
 	drawables : [],
 	sheeps : [],
 	walls : [],
+	targets : [],
 	initLevel : function() {
 		new Target(130, 450, 50, 20, true);
 		new Target(130, 150, 50, 20, true);
@@ -42,6 +43,34 @@ var Game = {
 			for(var key in Game.tickables) {
 				Game.tickables[key].tick();
 			}
+			Game.checkWin();
 		}, 100/FPS);
+	},
+	checkWin : function() {
+		var remaining = 0;
+		var won = true;
+		for(var key in Game.targets) {
+			var target = Game.targets[key];
+			remaining += target.remaining();
+			if(!target.check()) won = false;
+		}
+		if(won) {
+			Game.win();
+		}
+		if(Game.sheeps.length < remaining) {
+			Game.lose();
+		}
+	},
+	win : function() {
+		Game.stop();
+		alert("you win!");
+	},
+	lose : function() {
+		Game.stop();
+		alert("you suck!");
+	},
+	stop : function() {
+		clearInterval(Game.tickInterval);
+		clearInterval(Game.drawInterval);
 	}
 };

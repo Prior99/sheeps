@@ -6,6 +6,7 @@ var Target = function(x, y, radius, amount,sticky) {
 	this.sticky = sticky;
 	Game.tickables.push(this);
 	Game.drawables.push(this);
+	Game.targets.push(this);
 };
 
 Target.prototype = {
@@ -37,6 +38,21 @@ Target.prototype = {
 				}
 			}
 		}
-		return this.count >= this.amount;
+		if(this.sticky && this.check()) {
+			this.full();
+		}
+	},
+	check : function() {
+		return this.remaining() <= 0;
+	},	
+	remaining : function() {
+		return this.amount - this.count;
+	},
+	full : function() {
+		var index;
+		if((index = Game.drawables.indexOf(this)) != -1)
+			Game.drawables.splice(index, 1);
+		if((index = Game.tickables.indexOf(this)) != -1)
+			Game.tickables.splice(index, 1);
 	}
 }
