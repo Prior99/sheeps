@@ -37,5 +37,17 @@ vec.prototype = {
 	},
 	equals : function(v) {
 		return v.x == this.x && v.y == this.y;
+	},
+	getRad : function() {
+		var f =  Math.acos(
+			this.scalar(new vec(1, 0)) / this.length() // * 1
+		);
+		if(this.y < 0) 
+			f = Math.PI * 2 - f;
+		return f;
 	}
+};
+
+function rad2vec(rad) {
+	return new vec(Math.cos(rad), Math.sin(rad));
 };

@@ -21,8 +21,8 @@ Hole.prototype = {
 		var sheeps = Game.sheeps;
 		for(var key in sheeps) {
 			var sheep = sheeps[key];
-			var vec = this.pos.sub(sheep.pos);
-			if(vec.length() <= this.radius) {
+			var v = this.pos.sub(sheep.pos);
+			if(v.length() <= this.radius) {
 				sheep.die();
 			}
 		}

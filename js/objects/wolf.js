@@ -37,9 +37,9 @@ Wolf.prototype = {
 		var minSheep = undefined
 		for(var key in sheeps) {
 			var sheep = sheeps[key];
-			var vec = sheep.pos.sub(this.pos);
-			if(minLen === undefined || vec.length() < minLen) {
-				minLen = vec.length();
+			var v = sheep.pos.sub(this.pos);
+			if(minLen === undefined || v.length() < minLen) {
+				minLen = v.length();
 				minSheep = sheep;
 			}
 		}
@@ -54,11 +54,11 @@ Wolf.prototype = {
 		/*
 		 * Be afraid of cursor
 		 */
-		vec = cursor.pos.sub(this.pos).mult(-1);
-		var len = vec.length();
-		vec = vec.normalize();
+		var v = cursor.pos.sub(this.pos).mult(-1);
+		var len = v.length();
+		v = v.normalize();
 		var speed = (1/len)*50;
-		this.dir = this.dir.add(vec.mult(speed));
+		this.dir = this.dir.add(v.mult(speed));
 		this.pos = this.pos.add(this.dir);
 		this.dir = this.dir.normalize();
 		this.pos = this.pos.bound(Game.bound.min, Game.bound.max);

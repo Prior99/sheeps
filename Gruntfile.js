@@ -56,7 +56,7 @@ module.exports = function(grunt) {
 			},
 			dist: {
 				src: ['js/*.js', 'js/objects/*.js'],
-				dest: '<%= pkg.name %>.js'
+				dest: 'dist/<%= pkg.name %>.js'
 			}
 		},
 		uglify: {

@@ -19,8 +19,8 @@ MoveableWall.prototype = {
 			this.target = this.target == 0 ? 1 : 0;
 		}
 		else {
-			var vec = target.sub(this.pos).normalize();
-			this.pos = this.pos.add(vec.mult(0.5));
+			var v = target.sub(this.pos).normalize();
+			this.pos = this.pos.add(v.mult(0.5));
 		}
 	}
 	

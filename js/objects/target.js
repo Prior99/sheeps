@@ -33,8 +33,8 @@ Target.prototype = {
 		for(var key in sheeps) {
 			if(!this.sticky || this.count < this.amount) {
 				var sheep = sheeps[key];
-				var vec = this.pos.sub(sheep.pos);
-				if(vec.length() <= this.radius) {
+				var v = this.pos.sub(sheep.pos);
+				if(v.length() <= this.radius) {
 					this.count++;
 					if(this.sticky) {
 						sheep.die();

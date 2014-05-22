@@ -12,8 +12,10 @@ Cursor.prototype = {
 	draw : function() {
 		var ctx = Game.ctx;
 		ctx.beginPath();
-		ctx.fillStyle = "rgb(0, 0, 0)";
-		ctx.arc(this.pos.x, this.pos.y, 6, 0, 2 * Math.PI);
+		ctx.fillStyle = "rgb(200, 200, 255)";
+		ctx.strokeStyle = "rgb(0, 0, 0)";
+		ctx.arc(this.pos.x, this.pos.y, 8, 0, 2 * Math.PI);
+		ctx.stroke();
 		ctx.fill();
 	}
 };

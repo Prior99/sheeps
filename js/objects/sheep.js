@@ -4,6 +4,9 @@ var Sheep = function(obj) {
 	Game.drawables.push(this);
 	Game.sheeps.push(this);
 	this.dir = new vec(0, 0);
+	this.drunk = new vec(0, 0);
+	this.drunkraddelta = (Math.random()-0.5)/10;
+	this.drunkrad = 0;
 };
 
 Sheep.prototype = {
@@ -27,14 +30,16 @@ Sheep.prototype = {
 		
 	},
 	tick : function() {
+		this.drunkrad += this.drunkraddelta*2*Math.random();
+		this.drunk = rad2vec(this.drunkrad).normalize().mult(0.3);
 		var cursor = Game.cursor;
 		var walls = Game.walls;
-		var vec = cursor.pos.sub(this.pos).mult(-1);
-		var len = vec.length();
-		vec = vec.normalize();
-		this.dir = vec;
+		var v = cursor.pos.sub(this.pos).mult(-1);
+		var len = v.length();
+		v = v.normalize();
+		this.dir = v.add(this.drunk).normalize();
 		var speed = (1/len)*50;
-		this.pos = this.pos.add(vec.mult(speed));
+		this.pos = this.pos.add(this.dir.mult(speed));
 		this.pos = this.pos.bound(Game.bound.min, Game.bound.max);
 		/*
 		 * Avoid walls
@@ -59,8 +64,4 @@ Sheep.prototype = {
 		if((index = Game.tickables.indexOf(this)) != -1)
 			Game.tickables.splice(index, 1);
 	}
-};
-
-function len(vec) {
-	return 
 };

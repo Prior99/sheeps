@@ -9,7 +9,9 @@ Wall.prototype = {
 	draw : function() {
 		Game.ctx.beginPath();
 		Game.ctx.fillStyle = "white";
+		Game.ctx.strokeStyle = "rgb(0, 0, 0)";
 		Game.ctx.rect(this.pos.x, this.pos.y, this.size.x, this.size.y);
+		Game.ctx.stroke();
 		Game.ctx.fill();
 	}
 };
