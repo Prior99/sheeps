@@ -41,7 +41,7 @@
 						if(obj.dependencies === undefined || checkDependencies(obj.dependencies)) {
 							elem.addClass("unlocked");
 							elem.click(function() {
-								startLevel(obj.file);
+								startLevel(obj.file, obj.name);
 							});
 						}
 						else {
@@ -52,7 +52,7 @@
 				}
 			});
 			
-			function startLevel(url) {
+			function startLevel(url, name) {
 				$("body").html("");
 				var canvas = $('<canvas id="canvas" width="800" height="600"></canvas>').appendTo("body")[0];
 				$.ajax({
@@ -61,7 +61,7 @@
 				}).done(function(text) {
 					var f = eval("(" + text + ")");
 					f();
-					Game.init(canvas, FPS);
+					Game.init(canvas, FPS, name);
 				}).error(function(obj, err1, err2) {
 					console.log(err1, err2);
 				});

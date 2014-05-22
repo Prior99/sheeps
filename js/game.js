@@ -4,8 +4,9 @@ var Game = {
 	sheeps : [],
 	walls : [],
 	targets : [],
-	init : function(canvas, FPS) {
+	init : function(canvas, FPS, name) {
 		this.canvas = canvas;
+		this.name = name;
 		this.ctx = canvas.getContext("2d");
 		this.cursor = new Cursor(canvas);
 		this.bound = {
@@ -52,6 +53,7 @@ var Game = {
 	},
 	win : function() {
 		Game.stop();
+		localStorage.setItem(Game.name, true);
 		alert("you win!");
 	},
 	lose : function() {
