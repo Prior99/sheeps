@@ -3,15 +3,28 @@ var Sheep = function(obj) {
 	Game.tickables.push(this);
 	Game.drawables.push(this);
 	Game.sheeps.push(this);
+	this.dir = new vec(0, 0);
 };
 
 Sheep.prototype = {
 	draw : function() {
 		var ctx = Game.ctx;
+		ctx.fillStyle = "rgb(200, 255, 200)";
+		ctx.strokeStyle = "rgb(0, 0, 0)";
+		ctx.lineWidth=1;
+		var tail = this.pos.add(this.dir.mult(5));
+		
 		ctx.beginPath();
-		ctx.fillStyle = "rgb(0, 255, 0)";
-		ctx.arc(this.pos.x, this.pos.y, 4, 0, 2 * Math.PI);
+		ctx.arc(tail.x, tail.y, 3, 0, 2 * Math.PI);
+		ctx.stroke();
 		ctx.fill();
+		
+		ctx.beginPath();
+		ctx.lineWidth=1;
+		ctx.arc(this.pos.x, this.pos.y, 4, 0, 2 * Math.PI);
+		ctx.stroke();
+		ctx.fill();
+		
 	},
 	tick : function() {
 		var cursor = Game.cursor;
@@ -19,6 +32,7 @@ Sheep.prototype = {
 		var vec = cursor.pos.sub(this.pos).mult(-1);
 		var len = vec.length();
 		vec = vec.normalize();
+		this.dir = vec;
 		var speed = (1/len)*50;
 		this.pos = this.pos.add(vec.mult(speed));
 		this.pos = this.pos.bound(Game.bound.min, Game.bound.max);
