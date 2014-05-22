@@ -1,6 +1,7 @@
 module.exports = {
 	name : "First steps",
 	description : "A first and easy level", 
+	image : "img/unknown.png",
 	init : function () {
 		new Target({
 			pos : [130, 450],

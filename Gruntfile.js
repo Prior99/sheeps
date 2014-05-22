@@ -5,28 +5,10 @@ String.prototype.endsWith = function(suffix) {
 };
 
 module.exports = function(grunt) {
-	grunt.registerTask('images', function() {
-		var done = this.async();
-		fs.mkdir("dist/img", function(err) {
-			fs.readdir("dist/img", function(err, files) {
-				if(!err) {
-					for(var i = 0; i < files.length; i++) {
-						fs.unlink("dist/img/" + files[i]);
-					}
-				}
-				fs.readdir("img", function(err, files) {
-					if(!err) {
-						for(var i = 0; i < files.length; i++) {
-							if(files[i].toLowerCase().endsWith(".png")) {
-								fs.createReadStream("img/" + files[i]).pipe(fs.createWriteStream("dist/img/" + files[i]));
-							}
-						}
-					}
-				});
-			});
-		});
+	grunt.registerTask('cleanup', function() {
+		fs.unlink("sheeps.js");
 	});
-	grunt.registerTask('descriptor', function() {
+		grunt.registerTask('descriptor', function() {
 		grunt.log.writeln("Building level descriptor...");
 		var done = this.async();
 		fs.mkdir("dist/levels", function(err) {
@@ -98,10 +80,38 @@ module.exports = function(grunt) {
 					'dist/index.html': 'index.html'
 				}
 			}
+		},
+		less: {
+			development: {
+				options: {
+					paths: ["style"]
+				},
+				files: {
+					"dist/style.css": "style/style.less"
+				}
+			},
+			production: {
+				options: {
+					paths: ["style"],
+					cleancss: true,
+				},
+				files: {
+					"dist/style.css": "style/style.less"
+				}
+			}
+		},
+		copy: {
+			images: {
+				files: [
+					{expand: true, src: ['img/*.png'], dest: 'dist/', filter: 'isFile'}
+				]
+			}
 		}
 	});
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-contrib-concat');
 	grunt.loadNpmTasks('grunt-include-source');
-	grunt.registerTask('default', ['concat', 'uglify', 'includeSource', 'descriptor', 'images']);
+	grunt.loadNpmTasks('grunt-contrib-less');
+	grunt.loadNpmTasks('grunt-contrib-copy');
+	grunt.registerTask('default', ['concat', 'uglify', 'less', 'includeSource', 'descriptor', 'cleanup', 'copy']);
 };
