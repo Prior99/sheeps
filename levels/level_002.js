@@ -11,9 +11,9 @@ module.exports = {
 			sticky :true
 		});
 		new Wall({
-			pos: [100, 300],
+			pos: [200, 100],
 			width: 40,
-			height: 600
+			height: 400
 		});
 		drawSheepCircle({
 			amount : 40,
