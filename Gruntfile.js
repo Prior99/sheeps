@@ -84,7 +84,7 @@ module.exports = function(grunt) {
 		less: {
 			development: {
 				options: {
-					paths: ["style"]
+					paths: ["style", ""]
 				},
 				files: {
 					"dist/style.css": "style/style.less"
@@ -104,6 +104,11 @@ module.exports = function(grunt) {
 			images: {
 				files: [
 					{expand: true, src: ['img/*.png'], dest: 'dist/', filter: 'isFile'}
+				]
+			},
+			font : {
+				files : [
+					{expand: true, cwd: "font/", src : ['*'], dest: 'dist/'}
 				]
 			}
 		}
