@@ -7,38 +7,22 @@
 	<body>
 		<div class="wrapper">
 			<h1>Levels</h1>
-			<div class="list">
-				<div class="container unlocked">
-					<div class="before"></div>
-					<div class="content">
-						<img src="img/unknown.png" />
-						<h1>Testlevel</h1>
-						<p>Lorem ipsum dolor sit amet. Sedipiscir eunt lorem ipsum. Lorem ipsum dolor sit amet. Sedipiscir eunt lorem ipsum.</p>
-					</div>
-					<div class="after"></div>
-				</div>
-				<div class="container unlocked">
-					<div class="before"></div>
-					<div class="content">
-						<img src="img/unknown.png" />
-						<h1>Testlevel</h1>
-						<p>Lorem ipsum dolor sit amet. Sedipiscir eunt lorem ipsum. Lorem ipsum dolor sit amet. Sedipiscir eunt lorem ipsum.</p>
-					</div>
-					<div class="after"></div>
-				</div>
-				<div class="container locked">
-					<div class="before"></div>
-					<div class="content">
-						<img src="img/unknown.png" />
-						<h1>Testlevel</h1>
-						<p>Lorem ipsum dolor sit amet. Sedipiscir eunt lorem ipsum. Lorem ipsum dolor sit amet. Sedipiscir eunt lorem ipsum.</p>
-					</div>
-					<div class="after"></div>
-				</div>
+			<div class="list" id="list">
 			</div>
 		</div>
 		<script>
+			function checkDependencies(arr) {
+				for(var i = 0; i < arr.length; i++) {
+					var item = localStorage.getItem(arr[i]);
+					if(item === undefined || item == false || item == null) {
+						return false;
+					} 
+				}
+				return true;
+			}
+			
 			var FPS = 30;
+			var list = $("#list");
 			$.ajax({
 				url : "levels/descriptor.json",
 				dataType : "json"
@@ -46,9 +30,24 @@
 				console.log(data);
 				for(var i = 0; i < data.length; i++) {
 					(function(obj) {
-						$("<a href='#'>" + obj.name + "</a>").appendTo($("body")).click(function() {
-							startLevel(obj.file);
-						});
+						var elem = $("<div class='container'></div>")
+							.append($("<div class='before'></div>"))
+							.append($("<div class='content'></div>")
+								.append($("<img src='" + obj.image + "' />"))
+								.append($("<h1>" + obj.name + "</h1>"))
+								.append($("<p>" + obj.description + "</p>"))
+							)
+							.append($("<div class='after'></div>"));
+						if(obj.dependencies === undefined || checkDependencies(obj.dependencies)) {
+							elem.addClass("unlocked");
+							elem.click(function() {
+								startLevel(obj.file);
+							});
+						}
+						else {
+							elem.addClass("locked");
+						}
+						elem.appendTo(list);
 					})(data[i]);
 				}
 			});
