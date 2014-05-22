@@ -12,13 +12,17 @@ var Target = function(obj) {
 Target.prototype = {
 	draw : function() {
 		var ctx = Game.ctx;
+		ctx.fillStyle = "rgb(200, 255, 200)";
+		ctx.strokeStyle = "rgb(0, 0, 0)";
+		ctx.lineWidth=1;
+		
 		ctx.beginPath();
-		ctx.fillStyle = "rgb(120, 255, 120)";
 		ctx.arc(this.pos.x, this.pos.y, this.radius, 0, 2 * Math.PI);
+		ctx.stroke();
 		ctx.fill();
-		ctx.fillStyle = "white";
-		ctx.font = "bold 16px Arial";
-		ctx.fillText(this.amount - this.count, this.pos.x, this.pos.y);
+		ctx.font = "bold 40px Arial";
+		ctx.textAlign = "center";
+		ctx.strokeText(this.amount - this.count, this.pos.x , this.pos.y + 10);
 	},
 	tick : function() {
 		var sheeps = Game.sheeps;
