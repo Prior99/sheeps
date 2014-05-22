@@ -7,6 +7,8 @@ var Sheep = function(obj) {
 	this.drunk = new vec(0, 0);
 	this.drunkraddelta = (Math.random()-0.5)/10;
 	this.drunkrad = 0;
+	if(obj.drunkmodifier === undefined) this.drunkmod = 1;
+	else this.drunkmod = obj.drunkmodifier;
 };
 
 Sheep.prototype = {
@@ -37,7 +39,7 @@ Sheep.prototype = {
 		var v = cursor.pos.sub(this.pos).mult(-1);
 		var len = v.length();
 		v = v.normalize();
-		this.dir = v.add(this.drunk).normalize();
+		this.dir = v.add(this.drunk.mult(this.drunkmod)).normalize();
 		var speed = (1/len)*50;
 		this.pos = this.pos.add(this.dir.mult(speed));
 		this.pos = this.pos.bound(Game.bound.min, Game.bound.max);
