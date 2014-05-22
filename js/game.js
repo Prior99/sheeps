@@ -55,6 +55,7 @@ var Game = {
 		Game.stop();
 		localStorage.setItem(Game.name, true);
 		alert("you win!");
+		location.reload();
 	},
 	lose : function() {
 		Game.stop();
