@@ -103,6 +103,7 @@ var Game = {
 	},
 	drawInfo : function() {
 		var ctx = Game.ctx;
+		ctx.textAlign = "left";
 		ctx.fillStyle = "rgb(70, 70, 255)";
 		ctx.font = "bold 16px Arial";
 		ctx.fillText(Game.remaining + " sheeps to rescue", 10, 26);

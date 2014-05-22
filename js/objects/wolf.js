@@ -8,16 +8,14 @@ var Wolf = function(obj) {
 Wolf.prototype = {
 	draw : function() {
 		var ctx = Game.ctx;
-		ctx.fillStyle = "rgb(120, 120, 120)";
+		ctx.fillStyle = "rgb(255, 200, 200)";
 		ctx.strokeStyle = "rgb(0, 0, 0)";
 		ctx.lineWidth=1;
 		var normal = new vec(this.dir.y, -this.dir.x);
-		var tail = this.pos.add(this.dir.mult(12));
-		var head = this.pos.add(this.dir.mult(4));
-		var left = this.pos.add(normal.mult(-8));
-		var right = this.pos.add(normal.mult(8));
+		var head = this.pos.add(this.dir.mult(9));
+		var left = this.pos.add(normal.mult(-7).add(this.dir.mult(-9)));
+		var right = this.pos.add(normal.mult(7).add(this.dir.mult(-9)));
 		ctx.beginPath();
-		ctx.moveTo(tail.x, tail.y);
 		ctx.lineTo(left.x, left.y);
 		ctx.lineTo(head.x, head.y);
 		ctx.lineTo(right.x, right.y);
