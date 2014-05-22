@@ -8,9 +8,13 @@ var Hole = function(obj) {
 Hole.prototype = {
 	draw : function() {
 		var ctx = Game.ctx;
+		ctx.fillStyle = "rgb(255, 200, 200)";
+		ctx.strokeStyle = "rgb(0, 0, 0)";
+		ctx.lineWidth=1;
+		
 		ctx.beginPath();
-		ctx.fillStyle = "rgb(250, 60, 60)";
 		ctx.arc(this.pos.x, this.pos.y, this.radius, 0, 2 * Math.PI);
+		ctx.stroke();
 		ctx.fill();
 	},
 	tick : function() {

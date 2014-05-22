@@ -118,5 +118,5 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-include-source');
 	grunt.loadNpmTasks('grunt-contrib-less');
 	grunt.loadNpmTasks('grunt-contrib-copy');
-	grunt.registerTask('default', ['concat', 'uglify', 'less', 'includeSource', 'descriptor', 'cleanup', 'copy']);
+	grunt.registerTask('default', ['concat', 'uglify', 'less', 'includeSource', 'descriptor', 'copy']);
 };

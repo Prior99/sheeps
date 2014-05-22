@@ -2,17 +2,31 @@ var Wolf = function(obj) {
 	this.pos = new vec(obj.pos[0], obj.pos[1]);
 	Game.tickables.push(this);
 	Game.drawables.push(this);
+	this.dir = new vec(0, 0);
 }
 
 Wolf.prototype = {
 	draw : function() {
 		var ctx = Game.ctx;
+		ctx.fillStyle = "rgb(120, 120, 120)";
+		ctx.strokeStyle = "rgb(0, 0, 0)";
+		ctx.lineWidth=1;
+		var normal = new vec(this.dir.y, -this.dir.x);
+		var tail = this.pos.add(this.dir.mult(12));
+		var head = this.pos.add(this.dir.mult(4));
+		var left = this.pos.add(normal.mult(-8));
+		var right = this.pos.add(normal.mult(8));
 		ctx.beginPath();
-		ctx.fillStyle = "rgb(250, 60, 60)";
-		ctx.arc(this.pos.x, this.pos.y, 6, 0, 2 * Math.PI);
+		ctx.moveTo(tail.x, tail.y);
+		ctx.lineTo(left.x, left.y);
+		ctx.lineTo(head.x, head.y);
+		ctx.lineTo(right.x, right.y);
+		ctx.closePath();
+		ctx.stroke();
 		ctx.fill();
 	},
 	tick : function() {
+		this.dir.x = this.dir.y = 0;
 		var walls = Game.walls;
 		var sheeps = Game.sheeps;
 		var cursor = Game.cursor;
@@ -34,8 +48,7 @@ Wolf.prototype = {
 				minSheep.die();
 			}
 			else {
-				var vec = minSheep.pos.sub(this.pos).normalize();
-				this.pos = this.pos.add(vec.mult(0.3));
+				this.dir = this.dir.add(minSheep.pos.sub(this.pos).normalize().mult(0.3));
 			}
 		}
 		/*
@@ -44,8 +57,10 @@ Wolf.prototype = {
 		vec = cursor.pos.sub(this.pos).mult(-1);
 		var len = vec.length();
 		vec = vec.normalize();
-		var speed = (1/len)*30;
-		this.pos = this.pos.add(vec.mult(speed));
+		var speed = (1/len)*50;
+		this.dir = this.dir.add(vec.mult(speed));
+		this.pos = this.pos.add(this.dir);
+		this.dir = this.dir.normalize();
 		this.pos = this.pos.bound(Game.bound.min, Game.bound.max);
 		/*
 		 * Avoid walls
