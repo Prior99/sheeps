@@ -2,23 +2,29 @@
 @menu_unlocked: rgb(255, 255, 255);
 @menu_hover: rgb(220, 220, 255);
 
-div.list {
+div.list { 
 	div.locked {
 		border-color: @menu_locked;
 		div.content {
 			background-image: -webkit-linear-gradient(bottom, fade(@menu_locked, 60%), fade(@menu_locked, 100%)); 
+			background-image: -moz-linear-gradient(bottom, fade(@menu_locked, 60%), fade(@menu_locked, 100%)); 
+			background-image: linear-gradient(bottom, fade(@menu_locked, 60%), fade(@menu_locked, 100%)); 
 		}
 	}
 	div.unlocked {
 		border-color: @menu_unlocked;
 		div.content {
 			background-image: -webkit-linear-gradient(bottom, fade(@menu_unlocked, 60%), fade(@menu_unlocked, 100%)); 
+			background-image: -moz-linear-gradient(bottom, fade(@menu_unlocked, 60%), fade(@menu_unlocked, 100%)); 
+			background-image: linear-gradient(bottom, fade(@menu_unlocked, 60%), fade(@menu_unlocked, 100%)); 
 		}
 	}
 	div.unlocked:hover {
 		border-color: @menu_hover;
 		div.content {
 			background-image: -webkit-linear-gradient(bottom, fade(@menu_hover, 60%), fade(@menu_hover, 100%)); 
+			background-image: -moz-linear-gradient(bottom, fade(@menu_hover, 60%), fade(@menu_hover, 100%)); 
+			background-image: linear-gradient(bottom, fade(@menu_hover, 60%), fade(@menu_hover, 100%)); 
 		}
 	}
 	div.container {

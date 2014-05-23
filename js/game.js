@@ -71,10 +71,13 @@ var Game = {
 		}, 100/FPS);
 	},
 	start : function() {
+		this.stopped = false;
 		clearInterval(this.startInterval);
-		this.drawInterval = setInterval(function() {
+		window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
+		/*this.drawInterval = setInterval(function() {
 			Game.draw();
-		}, 100/FPS);
+		}, 100/FPS);*/
+		this.draw();
 		this.tickInterval = setInterval(function() {
 			Game.tick();
 		}, 100/FPS);
@@ -88,6 +91,9 @@ var Game = {
 		}
 		Game.cursor.draw(ctx);
 		Game.drawInfo();
+		if(!Game.stopped) window.requestAnimationFrame(function() {
+			Game.draw();
+		});
 	},
 	tick : function() {
 		for(var key in Game.tickables) {
@@ -123,7 +129,8 @@ var Game = {
 	stop : function() {
 		Game.draw();
 		clearInterval(Game.tickInterval);
-		clearInterval(Game.drawInterval);
+		//clearInterval(Game.drawInterval);
+		this.stopped = true;
 	},
 	drawInfo : function() {
 		var ctx = Game.ctx;
