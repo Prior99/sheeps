@@ -4,7 +4,7 @@ var Game = {
 	sheeps : [],
 	walls : [],
 	targets : [],
-	init : function(canvas, FPS, name) {
+	init : function(canvas, FPS, name, startvec) {
 		this.canvas = canvas;
 		this.name = name;
 		this.ctx = canvas.getContext("2d");
@@ -48,10 +48,34 @@ var Game = {
 			min : new vec(10, 10), 
 			max : new vec(canvas.width - 10, canvas.height - 10)
 		};
+		var ctx = this.ctx;
+		this.startInterval = setInterval(function() {
+			ctx.fillStyle = "rgb(255, 255, 255)";
+			ctx.fillRect(0, 0, canvas.width, canvas.height);
+			ctx.fillStyle = "rgb(255, 255, 255)";
+			ctx.fillRect(0, 0, canvas.width, canvas.height);
+			ctx.strokeStyle = "black";
+			ctx.fillStyle = "rgb(200, 255, 200)";
+			ctx.beginPath();
+			ctx.arc(startvec.x, startvec.y, 30, 0, Math.PI * 2);
+			ctx.stroke();
+			ctx.fill();
+			ctx.fillStyle = "black";
+			ctx.textAlign = 'center';
+			ctx.font = "20px Arial";
+			ctx.fillText("Start", startvec.x, startvec.y + 5);
+			Game.cursor.draw();
+			if(Game.cursor.pos.sub(startvec).length() < 30) {
+				Game.start();
+			}
+		}, 100/FPS);
+	},
+	start : function() {
+		clearInterval(this.startInterval);
 		this.drawInterval = setInterval(function() {
 			Game.draw();
 		}, 100/FPS);
-		Game.tickInterval = setInterval(function() {
+		this.tickInterval = setInterval(function() {
 			Game.tick();
 		}, 100/FPS);
 	},

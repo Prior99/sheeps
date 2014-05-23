@@ -38,8 +38,11 @@
 							);
 						if(obj.dependencies === undefined || checkDependencies(obj.dependencies)) {
 							elem.addClass("unlocked");
+							var svec;
+							if(obj.startVec === undefined) svec = new vec(400, 300);
+							else svec = new vec(obj.startVec[0], obj.startVec[1]);
 							elem.click(function() {
-								startLevel(obj.file, obj.name);
+								startLevel(obj.file, obj.name, svec);
 							});
 						}
 						else {
@@ -50,7 +53,7 @@
 				}
 			});
 			
-			function startLevel(url, name) {
+			function startLevel(url, name, startvec) {
 				$("div.wrapper").html("");
 				var canvas = $('<canvas id="canvas" width="800" height="600"></canvas>').appendTo("div.wrapper")[0];
 				$("h1").html(name);
@@ -60,7 +63,7 @@
 				}).done(function(text) {
 					var f = eval("(" + text + ")");
 					f();
-					Game.init(canvas, FPS, name);
+					Game.init(canvas, FPS, name, startvec);
 				}).error(function(obj, err1, err2) {
 					console.log(err1, err2);
 				});
