@@ -21,7 +21,8 @@
 				return true;
 			}
 			
-			var FPS = 30;
+			var FPS = 60;
+			var TPS = 200;
 			var list = $("#list");
 			$.ajax({
 				url : "levels/descriptor.json",
@@ -63,7 +64,7 @@
 				}).done(function(text) {
 					var f = eval("(" + text + ")");
 					f();
-					Game.init(canvas, FPS, name, startvec);
+					Game.init(canvas, FPS, TPS, name, startvec);
 				}).error(function(obj, err1, err2) {
 					console.log(err1, err2);
 				});

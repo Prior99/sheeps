@@ -32,7 +32,7 @@ Sheep.prototype = {
 		
 	},
 	tick : function() {
-		this.drunkrad += this.drunkraddelta*2*Math.random();
+		this.drunkrad += this.drunkraddelta * 2 * Math.random();
 		this.drunk = rad2vec(this.drunkrad).normalize().mult(0.3);
 		var cursor = Game.cursor;
 		var walls = Game.walls;

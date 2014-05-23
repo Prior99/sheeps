@@ -4,9 +4,11 @@ var Game = {
 	sheeps : [],
 	walls : [],
 	targets : [],
-	init : function(canvas, FPS, name, startvec) {
+	init : function(canvas, FPS, TPS, name, startvec) {
 		this.canvas = canvas;
 		this.name = name;
+		this.FPS = FPS;
+		this.TPS = TPS;
 		this.ctx = canvas.getContext("2d");
 		/*
 		 * Thx to Andra Ruebsteck for this snippet
@@ -68,7 +70,7 @@ var Game = {
 			if(Game.cursor.pos.sub(startvec).length() < 30) {
 				Game.start();
 			}
-		}, 100/FPS);
+		}, 1000/FPS);
 	},
 	start : function() {
 		this.stopped = false;
@@ -77,35 +79,40 @@ var Game = {
 		/*this.drawInterval = setInterval(function() {
 			Game.draw();
 		}, 100/FPS);*/
+		this.lastFrame = 0;
 		this.draw();
 		this.tickInterval = setInterval(function() {
 			Game.tick();
-		}, 100/FPS);
+		}, 1000/Game.TPS);
 	},
 	draw : function() {
-		this.fps = new Date().getTime() - this.lastFrame;
-		var ctx = Game.ctx;
-		/*ctx.fillStyle = "rgb(255, 255, 255)";
-		ctx.fillRect(0, 0, canvas.width, canvas.height);*/
-		ctx.clearRect(0, 0, canvas.width, canvas.height);
-		for(var key in Game.drawables) {
-			Game.drawables[key].draw();
+		if(Date.now() - this.lastFrame > 1000/Game.FPS) {
+			var start = Date.now();
+			var ctx = Game.ctx;
+			ctx.clearRect(0, 0, canvas.width, canvas.height);
+			for(var key in Game.drawables) {
+				Game.drawables[key].draw();
+			}
+			Game.cursor.draw(ctx);
+			Game.drawInfo();
+			this.fps = Date.now() - start;
+			this.lastFrame = Date.now();
 		}
-		Game.cursor.draw(ctx);
-		
-		Game.drawInfo();
 		if(!Game.stopped) window.requestAnimationFrame(function() {
 			Game.draw();
 		});
-		this.lastFrame = new Date().getTime();
 	},
 	tick : function() {
-		this.tps = new Date().getTime() - this.lastTick;
+		var start = Date.now();
 		for(var key in Game.tickables) {
 			Game.tickables[key].tick();
 		}
 		Game.checkWin();
-		this.lastTick = new Date().getTime();
+		this.tps = Date.now() - start;
+		if(this.tps > 1000/Game.TPS) {
+			Game.FPS--;
+			console.log("Ticktime exceeded limit. Lowering FPS to " + Game.FPS);
+		}
 	},
 	checkWin : function() {
 		Game.remaining = 0;
