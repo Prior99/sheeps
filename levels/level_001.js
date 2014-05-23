@@ -1,6 +1,6 @@
 module.exports = {
-	name : "First steps",
-	description : "A first and easy level", 
+	name : "Potato",
+	description : "One of the most sour fruits in the world.", 
 	image : "img/thumb_level_001.png",
 	init : function () {
 		new Target({

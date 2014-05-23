@@ -1,8 +1,8 @@
 module.exports = {
-	name : "U Drunk?",
-	description : "Guide the drunken sheeps home.", 
-	image : "img/unknown.png",
-	dependencies : ["... To the wolfes"],
+	name : "Leafs",
+	description : "Try not to choke on it.", 
+	image : "img/thumb_level_007.png",
+	dependencies : ["Guitar"],
 	init : function () {
 		new Target({
 			pos : [400, 300],

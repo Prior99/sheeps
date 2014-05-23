@@ -1,8 +1,8 @@
 module.exports = {
-	name : "Holes",
-	description : "Try avoiding the hole in the moddle.", 
+	name : "Chicken",
+	description : "Moooo.", 
 	image : "img/thumb_level_004.png",
-	dependencies : ["Motion!"],
+	dependencies : ["Water"],
 	init : function () {
 		new Target({
 			pos : [700, 300],

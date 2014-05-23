@@ -1,8 +1,8 @@
 module.exports = {
 	name : "Toothpaste",
-	description : "Try to get all of your sheeps to the targets.", 
-	image : "img/unknown.png",
-	dependencies : ["... To the wolfes"],
+	description : "I once was bitten by on. It hurt for days.", 
+	image : "img/thumb_level_008.png",
+	dependencies : ["Beer", "Leafs"],
 	init : function () {
 		new Target({
 			pos : [200, 200],

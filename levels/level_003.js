@@ -1,8 +1,8 @@
 module.exports = {
-	name : "Motion!",
-	description : "A very motivating level.", 
-	image : "img/unknown.png",
-	dependencies : ["Second steps"],
+	name : "Water",
+	description : "Better avoid being hit by it.", 
+	image : "img/thumb_level_003.png",
+	dependencies : ["Paper"],
 	init : function () {
 		new Target({
 			pos : [700, 300],

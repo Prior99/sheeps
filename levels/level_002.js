@@ -1,8 +1,8 @@
 module.exports = {
-	name : "Second steps",
-	description : "Some less easier but still childish steps.", 
-	image : "img/unknown.png",
-	dependencies : ["First steps"],
+	name : "Paper",
+	description : "Be it raw, cooked or grilled, it's always delicious.", 
+	image : "img/thumb_level_002.png",
+	dependencies : ["Potato"],
 	init : function () {
 		new Target({
 			pos : [700, 300],
