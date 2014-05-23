@@ -5,8 +5,8 @@
 		<link rel="stylesheet" type="text/css" href="style.css" />
 	</head>
 	<body>
+		<h1>Levels</h1>
 		<div class="wrapper">
-			<h1>Levels</h1>
 			<div class="list" id="list">
 			</div>
 		</div>
@@ -33,7 +33,7 @@
 						var elem = $("<div class='container'></div>")
 							.append($("<div class='before'></div>"))
 							.append($("<div class='content'></div>")
-								.append($("<img src='" + obj.image + "' />"))
+								.append($("<img width='80' height='80' src='" + obj.image + "' />"))
 								.append($("<h1>" + obj.name + "</h1>"))
 								.append($("<p>" + obj.description + "</p>"))
 							)

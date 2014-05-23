@@ -2,8 +2,10 @@
 @import "josefinesans.less";
 @import "canvas.less";
 
+@header: rgb(80, 80, 255);
+
 div.wrapper {
-	width: 800px;
+	width: 1000px;
 	margin:auto;
 }
 
@@ -18,4 +20,12 @@ body {
 	background-size: 100%;
 	background-repeat:no-repeat;
 	background-position: center center;
+}
+
+h1 {
+	width: 100%;
+	background-image: -webkit-linear-gradient(bottom, fade(@header, 0%), fade(@header, 50%)); 
+	color: white;
+	height: 50px;
+	font-size: 30pt;
 }
