@@ -9,11 +9,20 @@ var MoveableWall = function(obj) {
 	Game.tickables.push(this);
 	Game.drawables.push(this);
 	Game.walls.push(this);
+	this.active = true;
+	this.active2 = obj.deactivated == undefined || obj.deactivated == false; 
 };
 
 MoveableWall.prototype = {
+	activate : function() {
+		this.active2 = true;
+	},
+	deactivate : function() {
+		this.active2 = false;
+	},
 	draw : Wall.prototype.draw,
 	tick : function() {
+		if(!this.active2) return;
 		var target = this.targets[this.target];
 		if(this.pos.sub(target).length() < 5) {
 			this.target = this.target == 0 ? 1 : 0;

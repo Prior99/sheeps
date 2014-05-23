@@ -7,24 +7,33 @@ var Target = function(obj) {
 	Game.tickables.push(this);
 	Game.drawables.push(this);
 	Game.targets.push(this);
+	this.active = obj.deactivated == undefined || obj.deactivated == false; 
 };
 
 Target.prototype = {
+	activate : function() {
+		this.active = true;
+	},
+	deactivate : function() {
+		this.active = false;
+	},
 	draw : function() {
 		var ctx = Game.ctx;
 		ctx.fillStyle = "rgb(200, 255, 200)";
-		ctx.strokeStyle = "rgb(0, 0, 0)";
+		if(this.active) ctx.strokeStyle = "rgb(0, 0, 0)";
+		else ctx.strokeStyle = "rgb(80, 80, 80)";
 		ctx.lineWidth=1;
 		
 		ctx.beginPath();
 		ctx.arc(this.pos.x, this.pos.y, this.radius, 0, 2 * Math.PI);
 		ctx.stroke();
-		ctx.fill();
+		if(this.active) ctx.fill();
 		ctx.font = "bold 40px Arial";
 		ctx.textAlign = "center";
 		ctx.strokeText(this.amount - this.count, this.pos.x , this.pos.y + 10);
 	},
 	tick : function() {
+		if(!this.active) return;
 		var sheeps = Game.sheeps;
 		if(!this.sticky) {
 			this.count = 0;

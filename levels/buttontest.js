@@ -1,59 +1,44 @@
 module.exports = {
-	name : "Toothpaste",
+	name : "Buttontest",
 	description : "I once was bitten by one. It hurt for days.", 
 	image : "img/thumb_level_008.png",
-	dependencies : ["Beer", "Leafs"],
 	init : function () {
 		new Target({
 			pos : [200, 200],
 			radius : 30,
-			amount : 10, 
+			amount : 2, 
 			sticky :true
 		});
-		new Target({
+		var t = new Target({
 			pos : [600, 400],
 			radius : 30,
-			amount : 10, 
+			amount : 2, 
 			sticky :true
 		});
-		
-		new Wall({ //Top Left
+		var wall = new Wall({ //Top Left
 			pos: [100, 100],
 			width: 50,
 			height: 175
 		});
-		new Wall({//Top Right
-			pos: [375, 100],
-			width: 50,
-			height: 175
-		});
-		new Wall({ //Top Top
-			pos: [150, 100],
-			width: 225,
-			height: 50
-		});
-		
-		new Wall({ //Bottom Left
-			pos: [375, 325],
-			width: 50,
-			height: 175
-		});
-		new Wall({ //Bottom Right
-			pos: [375 + 275, 325],
-			width: 50,
-			height: 175
-		});
-		new Wall({ //Bottom Bottom
-			pos: [375 + 50, 450],
-			width: 275,
-			height: 50
-		});
-		new MoveableWall({
+		var mwall = new MoveableWall({
 			pos: [100, 275],
 			loc1 : [0, 275],
 			loc2 : [200, 275],
 			width : 600,
 			height: 50
+		});
+		var h = new Hole({
+			pos : [400, 150],
+			radius: 10,
+			deactivated : true
+		});
+		new Button({
+			pos : [250, 150],
+			width: 80,
+			height: 80,
+			amount: 5,
+			sticky: true,
+			targets : [new Not(wall), new Not(mwall), new Not(t), h]
 		});
 		for(var i = 0; i < 10; i++)
 			new Sheep({
