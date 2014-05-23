@@ -83,6 +83,7 @@ var Game = {
 		}, 100/FPS);
 	},
 	draw : function() {
+		this.fps = new Date().getTime() - this.lastFrame;
 		var ctx = Game.ctx;
 		ctx.fillStyle = "rgb(255, 255, 255)";
 		ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -90,16 +91,20 @@ var Game = {
 			Game.drawables[key].draw();
 		}
 		Game.cursor.draw(ctx);
+		
 		Game.drawInfo();
 		if(!Game.stopped) window.requestAnimationFrame(function() {
 			Game.draw();
 		});
+		this.lastFrame = new Date().getTime();
 	},
 	tick : function() {
+		this.tps = new Date().getTime() - this.lastTick;
 		for(var key in Game.tickables) {
 			Game.tickables[key].tick();
 		}
 		Game.checkWin();
+		this.lastTick = new Date().getTime();
 	},
 	checkWin : function() {
 		Game.remaining = 0;
@@ -139,5 +144,6 @@ var Game = {
 		ctx.font = "bold 16px Arial";
 		ctx.fillText(Game.remaining + " sheeps to rescue", 10, 26);
 		ctx.fillText(Game.sheeps.length + " sheeps alive", 10, 26 + 16 + 5);
+		ctx.fillText("FT: " + parseInt(this.fps) + " | TT:" + parseInt(this.tps), 10, 26 + (16 + 5) * 2);
 	}
 };
