@@ -21,27 +21,41 @@ module.exports = function(grunt) {
 				fs.readdir("levels", function(err, files) {
 					if(!err) {
 						var arr = [];
+						var dones = 0;
+						function checkdone() {
+							if(++dones > files.length) done();
+						}
 						for(var i = 0; i < files.length; i++) {
 							var level = require("./levels/" + files[i]);
 							level.file = "levels/" + files[i];
 							var init = level.init;
-							fs.writeFile("dist/levels/" + files[i], ""+init, function(err) {
-								if(err) {
-									grunt.log.writeln("Error saving level " + files[i]);
-								}
-							});
+							(function(f) {
+								fs.writeFile("dist/levels/" + f, ""+init, function(err) {
+									if(err) {
+										grunt.log.writeln("Error saving level " + f);
+									}
+									else {
+										grunt.log.writeln("Exportet level " + f);
+									}
+									checkdone();
+								});
+							})(files[i]);
 							arr.push(level);
 						}
 						fs.writeFile("dist/levels/descriptor.json", JSON.stringify(arr), function(err) {
 							if(err) {
 								grunt.log.writeln("Error saving descriptor");
+							} 
+							else {
+								grunt.log.writeln("Exportet descriptor");
 							}
+							checkdone();
+							checkdone();
 						});
 					}
 					else {
 						grunt.log.writeln(err);
 					}
-					done();
 				});
 			});
 		});
@@ -67,17 +81,6 @@ module.exports = function(grunt) {
 			dist: {
 				files: {
 					'dist/<%= pkg.name %>.min.js': ['<%= concat.dist.dest %>']
-				}
-			}
-		},
-		includeSource: {
-			options: {
-				basePath: 'dist',
-				baseUrl: ''
-			},
-			myTarget: {
-				files: {
-					'dist/index.html': 'index.html'
 				}
 			}
 		},
@@ -110,6 +113,11 @@ module.exports = function(grunt) {
 				files : [
 					{expand: true, cwd: "font/", src : ['*'], dest: 'dist/'}
 				]
+			},
+			files: {
+				files : [
+					{src : ['jquery.min.js', 'index.html'], dest: 'dist/'}
+				]
 			}
 		}
 	});
@@ -118,5 +126,5 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-include-source');
 	grunt.loadNpmTasks('grunt-contrib-less');
 	grunt.loadNpmTasks('grunt-contrib-copy');
-	grunt.registerTask('default', ['concat', 'uglify', 'less', 'includeSource', 'descriptor', 'copy']);
+	grunt.registerTask('default', ['concat', 'uglify', 'less', 'descriptor', 'copy']);
 };
