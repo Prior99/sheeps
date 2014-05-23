@@ -85,8 +85,9 @@ var Game = {
 	draw : function() {
 		this.fps = new Date().getTime() - this.lastFrame;
 		var ctx = Game.ctx;
-		ctx.fillStyle = "rgb(255, 255, 255)";
-		ctx.fillRect(0, 0, canvas.width, canvas.height);
+		/*ctx.fillStyle = "rgb(255, 255, 255)";
+		ctx.fillRect(0, 0, canvas.width, canvas.height);*/
+		ctx.clearRect(0, 0, canvas.width, canvas.height);
 		for(var key in Game.drawables) {
 			Game.drawables[key].draw();
 		}
