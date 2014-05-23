@@ -1,46 +1,28 @@
-@menu_locked: rgb(60, 60, 120);
-@menu_unlocked: rgb(80, 80, 240);
-@menu_hover: rgb(120, 120, 240);
+@menu_locked: rgb(190, 190, 190);
+@menu_unlocked: rgb(255, 255, 255);
+@menu_hover: rgb(220, 220, 255);
 
 div.list {
 	div.locked {
 		border-color: @menu_locked;
 		div.content {
-			background: fade(@menu_locked, 50%);
-		}
-		div.before {
-			background-image: -webkit-linear-gradient(left, fade(@menu_locked, 0%), fade(@menu_locked, 50%)); 
-		}
-		div.after {
-			background-image: -webkit-linear-gradient(right, fade(@menu_locked, 0%), fade(@menu_locked, 50%)); 
+			background-image: -webkit-linear-gradient(bottom, fade(@menu_locked, 60%), fade(@menu_locked, 100%)); 
 		}
 	}
 	div.unlocked {
 		border-color: @menu_unlocked;
 		div.content {
-			background: fade(@menu_unlocked, 50%);
-		}
-		div.before {
-			background-image: -webkit-linear-gradient(left, fade(@menu_unlocked, 0%), fade(@menu_unlocked, 50%)); 
-		}
-		div.after {
-			background-image: -webkit-linear-gradient(right, fade(@menu_unlocked, 0%), fade(@menu_unlocked, 50%)); 
+			background-image: -webkit-linear-gradient(bottom, fade(@menu_unlocked, 60%), fade(@menu_unlocked, 100%)); 
 		}
 	}
 	div.unlocked:hover {
 		border-color: @menu_hover;
 		div.content {
-			background: fade(@menu_hover, 50%);
-		}
-		div.before {
-			background-image: -webkit-linear-gradient(left, fade(@menu_hover, 0%), fade(@menu_hover, 50%)); 
-		}
-		div.after {
-			background-image: -webkit-linear-gradient(right, fade(@menu_hover, 0%), fade(@menu_hover, 50%)); 
+			background-image: -webkit-linear-gradient(bottom, fade(@menu_hover, 60%), fade(@menu_hover, 100%)); 
 		}
 	}
 	div.container {
-		width: 330px;
+		width: 325px;
 		height: 100px;
 		margin-bottom: 5px;
 		border-top-width: 0px;
@@ -48,13 +30,14 @@ div.list {
 		border-left-width: 0;
 		border-right-width: 0;
 		border-style: solid;
+		margin-right: 5px;
 		float: left;
 		div.content {
 			float:left;
 			height: 100px;
 			overflow: hidden;
 			padding: 0px;
-			width: 300px;
+			width: 325px;
 			text-align: left;
 			img {
 				float : left;
@@ -63,20 +46,16 @@ div.list {
 			}
 			h1 {
 				font-size: 15pt;
-				color: white;
+				color: black;
 				background: none;
+				height: 15pt;
+				margin-bottom: 5px;
 			}
 			p {
-				color: white;
+				color: black;
 				font-size: 12pt;
+				margin-top: 0;
 			}
-		}
-		div.before, div.after {
-			float:left;
-			content: " ";
-			display:block;
-			width: 15px;
-			height: 100px;
 		}
 	}
 }
