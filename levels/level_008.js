@@ -49,10 +49,10 @@ module.exports = {
 			height: 50
 		});
 		new MoveableWall({
-			pos: [100, 275],
-			loc1 : [0, 275],
-			loc2 : [200, 275],
-			width : 600,
+			pos: [150, 275],
+			loc1 : [50, 275],
+			loc2 : [250, 275],
+			width : 500,
 			height: 50
 		});
 		for(var i = 0; i < 10; i++)
