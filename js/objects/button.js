@@ -28,11 +28,19 @@ Button.prototype = {
 		ctx.rect(this.pos.x, this.pos.y, this.size.x, this.size.y);
 		ctx.stroke();
 		ctx.fill();
-		if(this.amount > 1) {
-			ctx.font = "bold 40px Arial";
-			ctx.textAlign = "center";
-			ctx.strokeText(this.amount - this.count, this.pos.x + this.size.x /2  , this.pos.y + 10 + this.size.y / 2);
+		if(this.sticky) {
+			if(this.pressed) ctx.fillStyle = "rgb(99, 167, 250)";
+			else ctx.fillStyle = "rgb(211, 225, 253)";
+			ctx.beginPath();
+			ctx.rect(this.pos.x + this.size.x / 8, this.pos.y  + this.size.y / 8, (this.size.x * 6) / 8, (this.size.y * 6) / 8)
+			//ctx.stroke();
+			ctx.fill();
 		}
+		ctx.font = "bold 40px Arial";
+		ctx.textAlign = "center";
+		var i = this.amount - this.count;
+		if(i < 0) i = 0;
+		ctx.strokeText(i, this.pos.x + this.size.x /2  , this.pos.y + 15 + this.size.y / 2);
 	},
 	tick : function() {
 		if(this.sticky && this.count >= this.amount) return;
