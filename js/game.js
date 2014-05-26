@@ -69,9 +69,11 @@ var Game = {
 		var ctx = this.ctx;
 		this.startInterval = setInterval(function() {
 			ctx.fillStyle = "rgb(255, 255, 255)";
-			ctx.fillRect(0, 0, canvas.width, canvas.height);
-			ctx.fillStyle = "rgb(255, 255, 255)";
-			ctx.fillRect(0, 0, canvas.width, canvas.height);
+			ctx.fillRect(0, 0, 840, 640);
+			ctx.translate(20, 20);
+			ctx.beginPath();
+			ctx.rect(0, 0, 800, 600);
+			ctx.stroke();
 			ctx.strokeStyle = "black";
 			ctx.fillStyle = "rgb(200, 255, 200)";
 			ctx.beginPath();
@@ -86,6 +88,7 @@ var Game = {
 			if(Game.cursor.pos.sub(startvec).length() < 30) {
 				Game.start();
 			}
+			ctx.translate(-20, -20);
 		}, 100/FPS);
 	},
 	start : function() {
@@ -104,16 +107,22 @@ var Game = {
 		this.fps = new Date().getTime() - this.lastFrame;
 		var ctx = Game.ctx;
 		ctx.fillStyle = "rgb(255, 255, 255)";
-		ctx.fillRect(0, 0, canvas.width, canvas.height);
+		ctx.fillRect(0, 0, 840, 640);
+		Game.cursor.draw(ctx);
+		this.ctx.translate(20, 20);
+		this.ctx.beginPath();
+		this.ctx.rect(0, 0, 800, 600);
+		this.ctx.stroke();
+		
 		for(var key in Game.drawables) {
 			Game.drawables[key].draw();
 		}
-		Game.cursor.draw(ctx);
 		
 		Game.drawInfo();
 		if(!Game.stopped) window.requestAnimationFrame(function() {
 			Game.draw();
 		});
+		this.ctx.translate(-20, -20);
 		this.lastFrame = new Date().getTime();
 	},
 	tick : function() {

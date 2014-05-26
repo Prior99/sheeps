@@ -5,7 +5,6 @@ var Cursor = function(canvas) {
 		var rect = canvas.getBoundingClientRect();
 		self.pos = new vec(e.clientX - rect.left, self.pos.y = e.clientY - rect.top);
 	});
-	Game.drawables.push(this);
 };
 
 Cursor.prototype = {
