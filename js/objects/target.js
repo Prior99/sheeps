@@ -67,5 +67,7 @@ Target.prototype = {
 			Game.drawables.splice(index, 1);
 		if((index = Game.tickables.indexOf(this)) != -1)
 			Game.tickables.splice(index, 1);
-	}
+	},
+	isSelected : Hole.prototype.isSelected,
+	isClicked : Hole.prototype.isClicked
 }

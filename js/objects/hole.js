@@ -35,5 +35,12 @@ Hole.prototype = {
 				sheep.die();
 			}
 		}
+	},
+	isSelected : function(v1, v2) {
+		return this.pos.sub(new vec(1, 1).mult(this.radius)).greaterthan(v1) &&
+			this.pos.add(new vec(1, 1).mult(this.radius)).lessthan(v2);
+	},
+	isClicked : function(v) {
+		return v.sub(this.pos).length() < this.radius;
 	}
 };

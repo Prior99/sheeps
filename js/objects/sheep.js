@@ -101,5 +101,14 @@ Sheep.prototype = {
 			Game.drawables.splice(index, 1);
 		if((index = Game.tickables.indexOf(this)) != -1)
 			Game.tickables.splice(index, 1);
+	},
+	isSelected : function(v1, v2) {
+		var radius = 4;
+		return this.pos.sub(new vec(1, 1).mult(radius)).greaterthan(v1) &&
+			this.pos.add(new vec(1, 1).mult(radius)).lessthan(v2);
+	},
+	isClicked : function(v) {
+		var radius = 4;
+		return v.sub(this.pos).length() < radius;
 	}
 };

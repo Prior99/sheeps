@@ -31,6 +31,8 @@ MoveableWall.prototype = {
 			var v = target.sub(this.pos).normalize();
 			this.pos = this.pos.add(v.mult(0.5));
 		}
-	}
+	},
+	isSelected : Wall.prototype.isSelected,
+	isClicked : Wall.prototype.isClicked
 	
 };

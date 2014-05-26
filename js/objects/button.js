@@ -66,5 +66,11 @@ Button.prototype = {
 			}
 		}
 		this.pressed = nowpressed;
+	},
+	isSelected : function(v1, v2) {
+		return this.pos.greaterthan(v1) && this.pos.lessthan(v2) && this.pos.add(this.size).lessthan(v2);
+	},
+	isClicked : function(v) {
+		return v.greaterthan(this.pos) && v.lessthan(this.pos.add(this.size));
 	}
 };

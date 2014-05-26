@@ -33,5 +33,7 @@ Wall.prototype = {
 		Game.ctx.rect(this.pos.x, this.pos.y, this.size.x, this.size.y);
 		if(this.active) Game.ctx.fill();
 		Game.ctx.drawHatchedRect(this.pos.x, this.pos.y, this.size.x, this.size.y, 15);
-	}
+	},
+	isSelected : Button.prototype.isSelected,
+	isClicked : Button.prototype.isClicked
 };

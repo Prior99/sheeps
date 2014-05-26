@@ -2,7 +2,7 @@ var Wolf = function(obj) {
 	this.pos = new vec(obj.pos[0], obj.pos[1]);
 	Game.tickables.push(this);
 	Game.drawables.push(this);
-	this.dir = new vec(0, 0);
+	this.dir = new vec(1, 0);
 }
 
 Wolf.prototype = {
@@ -73,5 +73,14 @@ Wolf.prototype = {
 				if(this.pos.y >= wall.pos.y + wall.size.y) this.pos.y = wall.pos.y + wall.size.y + 5;			
 			}
 		}
+	},
+	isSelected : function(v1, v2) {
+		var radius = 4;
+		return this.pos.sub(new vec(1, 1).mult(radius)).greaterthan(v1) &&
+			this.pos.add(new vec(1, 1).mult(radius)).lessthan(v2);
+	},
+	isClicked : function(v) {
+		var radius = 4;
+		return v.sub(this.pos).length() < radius;
 	}
 };

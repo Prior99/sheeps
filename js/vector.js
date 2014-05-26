@@ -48,6 +48,12 @@ vec.prototype = {
 		if(this.y < 0) 
 			f = Math.PI * 2 - f;
 		return f;
+	},
+	greaterthan : function(v) {
+		return this.x > v.x && this.y > v.y;
+	},
+	lessthan : function(v) {
+		return this.x < v.x && this.y < v.y;
 	}
 };
 
