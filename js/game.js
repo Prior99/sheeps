@@ -66,7 +66,7 @@ var Game = {
 		this.cursor = new Cursor(canvas);
 		this.bound = {
 			min : new vec(10, 10), 
-			max : new vec(canvas.width - 10, canvas.height - 10)
+			max : new vec(800 - 10, 600 - 10)
 		};
 		var ctx = this.ctx;
 		this.startInterval = setInterval(function() {
@@ -111,7 +111,6 @@ var Game = {
 			var start = Date.now();
 			var ctx = Game.ctx;
 			ctx.clearRect(0, 0, canvas.width, canvas.height);
-			Game.cursor.draw(ctx);
 			this.ctx.translate(20, 20);
 			this.ctx.beginPath();
 			this.ctx.rect(0, 0, 800, 600);
@@ -125,6 +124,7 @@ var Game = {
 			if(!Game.stopped) window.requestAnimationFrame(function() {
 				Game.draw();
 			});
+			Game.cursor.draw(ctx);
 			this.ctx.translate(-20, -20);
 			this.lastFrame = new Date().getTime();
 			this.fps = Date.now() - start;

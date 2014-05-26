@@ -30,7 +30,6 @@ Sheep.prototype = {
 		ctx.arc(this.pos.x, this.pos.y, 4, 0, 2 * Math.PI);
 		ctx.stroke();
 		ctx.fill();
-		
 	},
 	tick : function() {
 		this.drunkrad += this.drunkraddelta * 2 * Math.random();
@@ -38,6 +37,8 @@ Sheep.prototype = {
 		var cursor = Game.cursor;
 		var walls = Game.walls;
 		var v = cursor.pos.sub(this.pos).mult(-1);
+		
+		
 		var len = v.length();
 		this.len = v.length();
 		v = v.normalize();
