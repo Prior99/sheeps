@@ -44,9 +44,7 @@ Sheep.prototype = {
 		var len = v.length();
 		this.len = v.length();
 		v = v.normalize();
-		var speed = (1/len)*49;
-		//speed = speed > 5 ? 5 : speed;
-		//speed = speed < 0.2 ? 0 : speed;
+		var speed = (1/(len/20 + 1))*15;
 		this.dir = v.add(this.drunk.mult(this.drunkmod)).normalize().mult(speed);
 		//this.dir = v.mult(speed);
 		//this.dir = new vec(0, 0);
@@ -62,12 +60,12 @@ Sheep.prototype = {
 					speed = speed > 5 ? 5 : speed;
 					speed = speed < 0.2 ? 0 : speed;
 					//speed = speed < -1 ? -1 : speed > 1 ? 1 : speed;
-					var dir = this.pos.sub(sheep.pos).normalize().mult(speed/4);
+					var dir = this.pos.sub(sheep.pos).normalize().mult(speed/2);
 					this.dir = this.dir.add(dir);
 				}
 				if(len > 40) {//approach
 					var speed = Math.log(len + 1 - 40)*0.1;
-					var dir = sheep.pos.sub(this.pos).normalize().mult(speed/4);
+					var dir = sheep.pos.sub(this.pos).normalize().mult(speed/2);
 					this.dir = this.dir.add(dir);
 				}
 			}

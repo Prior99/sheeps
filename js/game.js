@@ -141,7 +141,7 @@ var Game = {
 		}
 		Game.checkWin();
 		this.tps = Date.now() - start;
-		if(this.tps > 1000/Game.TPS) {
+		if(this.tps > 1000/Game.TPS && this.FPS > 0) {
 			Game.FPS--;
 			console.log("Ticktime exceeded limit. Lowering FPS to " + Game.FPS);
 		}

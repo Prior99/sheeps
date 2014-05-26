@@ -3,7 +3,7 @@ var Cursor = function(canvas) {
 	var self = this;
 	canvas.addEventListener('mousemove', function(e) {
 		var rect = canvas.getBoundingClientRect();
-		self.pos = new vec(e.clientX - rect.left - 20, self.pos.y = e.clientY - rect.top - 20);
+		self.pos = new vec(e.clientX - rect.left - 20, e.clientY - rect.top - 20);
 	});
 };
 
