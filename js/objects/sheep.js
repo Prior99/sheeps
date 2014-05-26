@@ -33,6 +33,7 @@ Sheep.prototype = {
 		ctx.fill();
 	},
 	tick : function() {
+		var oldpos = this.pos;
 		this.drunkrad += this.drunkraddelta * 2 * Math.random();
 		this.drunk = rad2vec(this.drunkrad).normalize().mult(0.3);
 		var cursor = Game.cursor;
@@ -44,7 +45,7 @@ Sheep.prototype = {
 		this.len = v.length();
 		v = v.normalize();
 		var speed = (1/len)*49;
-		speed = speed > 5 ? 5 : speed;
+		//speed = speed > 5 ? 5 : speed;
 		//speed = speed < 0.2 ? 0 : speed;
 		this.dir = v.add(this.drunk.mult(this.drunkmod)).normalize().mult(speed);
 		//this.dir = v.mult(speed);
@@ -81,10 +82,14 @@ Sheep.prototype = {
 			var wall = walls[key];
 			if(this.pos.x >= wall.pos.x - 4 && this.pos.x <= wall.pos.x + wall.size.x + 4 &&
 			 this.pos.y >= wall.pos.y - 4 && this.pos.y <= wall.pos.y + wall.size.y + 4) {
-				if(this.pos.x <= wall.pos.x) this.pos.x = wall.pos.x - 5;
+				/*if(this.pos.x <= wall.pos.x) this.pos.x = wall.pos.x - 5;
 				if(this.pos.x >= wall.pos.x + wall.size.x) this.pos.x = wall.pos.x + wall.size.x + 5;
 				if(this.pos.y <= wall.pos.y) this.pos.y = wall.pos.y - 5;
-				if(this.pos.y >= wall.pos.y + wall.size.y) this.pos.y = wall.pos.y + wall.size.y + 5;			
+				if(this.pos.y >= wall.pos.y + wall.size.y) this.pos.y = wall.pos.y + wall.size.y + 5;	*/
+				if(oldpos.x <= wall.pos.x) this.pos.x = wall.pos.x - 5;
+				if(oldpos.x >= wall.pos.x + wall.size.x) this.pos.x = wall.pos.x  + wall.size.x + 5;
+				if(oldpos.y <= wall.pos.y) this.pos.y = wall.pos.y - 5;
+				if(oldpos.y >= wall.pos.y + wall.size.y) this.pos.y = wall.pos.y  + wall.size.y + 5;
 			}
 		}
 	},
