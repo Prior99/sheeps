@@ -2,6 +2,10 @@ module.exports = {
 	name : "Potato",
 	description : "One of the most sour fruits in the world.", 
 	image : "img/thumb_level_001.png",
+	bonus : {
+		pos : [50, 450],
+		radius: 50
+	},
 	init : function () {
 		new Target({
 			pos : [130, 450],

@@ -4,10 +4,20 @@ var Game = {
 	sheeps : [],
 	walls : [],
 	targets : [],
-	init : function(canvas, FPS, name, startvec) {
+	init : function(canvas, FPS, name, startvec, bonus) {
 		this.canvas = canvas;
 		this.name = name;
+		this.bonus = bonus;
 		this.ctx = canvas.getContext("2d");
+		this.startSheepAmount = this.sheeps.length;
+		this.targetSheeps = 0;
+		for(var key in this.targets) {
+			var target = this.targets[key];
+			if(target.sticky) {
+				this.targetSheeps += target.amount;
+			}
+		}
+		bonus.amount = this.startSheepAmount - this.targetSheeps;
 		/*
 		 * Thx to Andra Ruebsteck for this snippet
 		 */
@@ -107,23 +117,37 @@ var Game = {
 		this.lastTick = new Date().getTime();
 	},
 	checkWin : function() {
-		Game.remaining = 0;
-		var won = true;
-		for(var key in Game.targets) {
-			var target = Game.targets[key];
-			Game.remaining += target.remaining();
-			if(!target.check()) won = false;
+		if(!this.bonusTime) {
+			Game.remaining = 0;
+			var won = true;
+			for(var key in Game.targets) {
+				var target = Game.targets[key];
+				Game.remaining += target.remaining();
+				if(!target.check()) won = false;
+			}
+			if(won) {
+				Game.startBonus();
+			}
+			if(Game.sheeps.length < Game.remaining) {
+				Game.lose();
+			}
 		}
-		if(won) {
-			Game.win();
+		else {
+			if(this.sheeps.length == 0) {
+				this.win();
+			}
 		}
-		if(Game.sheeps.length < Game.remaining) {
-			Game.lose();
-		}
+	},
+	startBonus : function() {
+		this.bonusTime = true;
+		this.bonus = new Bonus(this.bonus);
 	},
 	win : function() {
 		Game.stop();
-		localStorage.setItem(Game.name, true);
+		localStorage.setItem(Game.name, JSON.stringify({
+			count : this.bonus.count,
+			amount : this.bonus.count
+		}));
 		alert("you win!");
 		location.reload();
 	},
