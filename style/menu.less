@@ -1,6 +1,7 @@
-@menu_locked: rgb(190, 190, 190);
+@menu_locked: rgb(150, 150, 150);
 @menu_unlocked: rgb(255, 255, 255);
 @menu_hover: rgb(220, 220, 255);
+@menu_gold: #FFEC6A;
 
 div.list { 
 	div.locked {
@@ -9,8 +10,20 @@ div.list {
 			background-image: -webkit-linear-gradient(bottom, fade(@menu_locked, 60%), fade(@menu_locked, 100%)); 
 			background-image: -moz-linear-gradient(bottom, fade(@menu_locked, 60%), fade(@menu_locked, 100%)); 
 			background-image: linear-gradient(bottom, fade(@menu_locked, 60%), fade(@menu_locked, 100%)); 
+			p, h1 {
+				color : rgb(190, 190, 190);
+			}
 		}
 	}
+	div.gold {
+		border-color: @menu_gold;
+		div.content {
+			background-image: -webkit-linear-gradient(bottom, fade(@menu_gold, 60%), fade(@menu_gold, 100%)); 
+			background-image: -moz-linear-gradient(bottom, fade(@menu_gold, 60%), fade(@menu_gold, 100%)); 
+			background-image: linear-gradient(bottom, fade(@menu_gold, 60%), fade(@menu_gold, 100%)); 
+		}
+	}
+	
 	div.unlocked {
 		border-color: @menu_unlocked;
 		div.content {
@@ -19,7 +32,7 @@ div.list {
 			background-image: linear-gradient(bottom, fade(@menu_unlocked, 60%), fade(@menu_unlocked, 100%)); 
 		}
 	}
-	div.unlocked:hover {
+	div.unlocked:hover, div.gold:hover {
 		border-color: @menu_hover;
 		div.content {
 			background-image: -webkit-linear-gradient(bottom, fade(@menu_hover, 60%), fade(@menu_hover, 100%)); 
@@ -45,6 +58,10 @@ div.list {
 			padding: 0px;
 			width: 325px;
 			text-align: left;
+			div.score {
+				float: right;
+				padding: 5px;
+			}
 			img {
 				float : left;
 				margin: 10px;
@@ -52,13 +69,11 @@ div.list {
 			}
 			h1 {
 				font-size: 15pt;
-				color: black;
 				background: none;
 				height: 15pt;
 				margin-bottom: 5px;
 			}
 			p {
-				color: black;
 				font-size: 12pt;
 				margin-top: 0;
 			}

@@ -30,14 +30,21 @@
 				console.log(data);
 				for(var i = 0; i < data.length; i++) {
 					(function(obj) {
-						var elem = $("<div class='container'></div>")
-							.append($("<div class='content'></div>")
-								.append($("<img width='80' height='80' src='" + obj.image + "' />"))
-								.append($("<h1>" + obj.name + "</h1>"))
-								.append($("<p>" + obj.description + "</p>"))
-							);
+						var elem = $("<div class='container'></div>");
+						var result = localStorage.getItem(obj.name);
+						var content = $("<div class='content'></div>");
+						if(result !== null && (score = JSON.parse(result)) !== null && score.count !== undefined && score.amount !== undefined) {
+							content.append($("<div class='score'>" + score.count + "/" + score.amount + "</div>"));
+							if(score.count == score.amount) {
+								elem.addClass("gold");
+							}
+						}
+						content.append($("<img width='80' height='80' src='" + obj.image + "' />"))
+							.append($("<h1>" + obj.name + "</h1>"))
+							.append($("<p>" + obj.description + "</p>"));
+						elem.append(content);
 						if(obj.dependencies === undefined || checkDependencies(obj.dependencies)) {
-							elem.addClass("unlocked");
+							if(!elem.hasClass("gold")) elem.addClass("unlocked");
 							var svec;
 							if(obj.startVec === undefined) svec = new vec(400, 300);
 							else svec = new vec(obj.startVec[0], obj.startVec[1]);
