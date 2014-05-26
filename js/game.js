@@ -9,6 +9,12 @@ var Game = {
 		this.name = name;
 		this.bonus = bonus;
 		this.ctx = canvas.getContext("2d");
+		this.sidebar = {
+			alive : $("<span class='highlight'></span>").appendTo($("<span>Alive: </span>").appendTo($("div.sidebar"))),
+			remaining : $("<span class='highlight'></span>").appendTo($("<span>Remaining: </span>").appendTo($("div.sidebar"))),
+			tt : $("<span class='highlight'></span>").appendTo($("<span>Tick: </span>").appendTo($("div.sidebar"))),
+			ft : $("<span class='highlight'></span>").appendTo($("<span>Frame: </span>").appendTo($("div.sidebar")))
+		};
 		if(this.bonus !== undefined) {
 			this.startSheepAmount = this.sheeps.length;
 			this.targetSheeps = 0;
@@ -177,12 +183,9 @@ var Game = {
 		this.stopped = true;
 	},
 	drawInfo : function() {
-		var ctx = Game.ctx;
-		ctx.textAlign = "left";
-		ctx.fillStyle = "rgb(70, 70, 255)";
-		ctx.font = "bold 16px Arial";
-		ctx.fillText(Game.remaining + " sheeps to rescue", 10, 26);
-		ctx.fillText(Game.sheeps.length + " sheeps alive", 10, 26 + 16 + 5);
-		ctx.fillText("FT: " + parseInt(this.fps) + " | TT:" + parseInt(this.tps), 10, 26 + (16 + 5) * 2);
+		this.sidebar.alive.html(Game.sheeps.length);
+		this.sidebar.remaining.html(Game.remaining);
+		this.sidebar.ft.html(parseInt(this.fps) + "ms");
+		this.sidebar.tt.html(parseInt(this.tps) + "ms");
 	}
 };
