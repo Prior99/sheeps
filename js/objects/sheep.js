@@ -14,7 +14,8 @@ var Sheep = function(obj) {
 Sheep.prototype = {
 	draw : function() {
 		var ctx = Game.ctx;
-		ctx.fillStyle = "rgb(200, 255, 200)";
+		var red = (this.len/800)*255;
+		ctx.fillStyle = "rgb("+parseInt(red)+", " + parseInt(255 - red) + ", 200)";
 		ctx.strokeStyle = "rgb(0, 0, 0)";
 		ctx.lineWidth=1;
 		var tail = this.pos.add(this.dir.mult(5));
@@ -32,12 +33,13 @@ Sheep.prototype = {
 		
 	},
 	tick : function() {
-		this.drunkrad += this.drunkraddelta*2*Math.random();
+		this.drunkrad += this.drunkraddelta * 2 * Math.random();
 		this.drunk = rad2vec(this.drunkrad).normalize().mult(0.3);
 		var cursor = Game.cursor;
 		var walls = Game.walls;
 		var v = cursor.pos.sub(this.pos).mult(-1);
 		var len = v.length();
+		this.len = v.length();
 		v = v.normalize();
 		this.dir = v.add(this.drunk.mult(this.drunkmod)).normalize();
 		var speed = (1/len)*49;
