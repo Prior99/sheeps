@@ -116,7 +116,7 @@ module.exports = function(grunt) {
 			},
 			files: {
 				files : [
-					{src : ['jquery.min.js', 'index.html'], dest: 'dist/'}
+					{src : ['jquery.min.js', 'index.html', 'editor.html'], dest: 'dist/'}
 				]
 			}
 		}

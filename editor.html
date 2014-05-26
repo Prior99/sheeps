@@ -1,0 +1,16 @@
+<html>
+	<head>
+		<script src="sheeps.min.js"></script>
+		<script src="jquery.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="style.css" />
+	</head>
+	<body>
+		<div class="wrapper">
+		</div>
+		<script>
+			var div = $("<div class='ewrapper'></div>").appendTo("div.wrapper");
+			var canvas = $('<canvas class="editor" id="canvas" width="800" height="600"></canvas>').appendTo(div);
+			Editor.init(canvas, div);
+		</script>
+	</body>
+</html>
