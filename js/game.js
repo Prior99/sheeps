@@ -107,7 +107,6 @@ var Game = {
 		}, 1000/Game.TPS);
 	},
 	draw : function() {
-
 		if(Date.now() - this.lastFrame > 1000/Game.FPS) {
 			var start = Date.now();
 			var ctx = Game.ctx;
