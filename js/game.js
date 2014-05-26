@@ -9,15 +9,17 @@ var Game = {
 		this.name = name;
 		this.bonus = bonus;
 		this.ctx = canvas.getContext("2d");
-		this.startSheepAmount = this.sheeps.length;
-		this.targetSheeps = 0;
-		for(var key in this.targets) {
-			var target = this.targets[key];
-			if(target.sticky) {
-				this.targetSheeps += target.amount;
+		if(this.bonus !== undefined) {
+			this.startSheepAmount = this.sheeps.length;
+			this.targetSheeps = 0;
+			for(var key in this.targets) {
+				var target = this.targets[key];
+				if(target.sticky) {
+					this.targetSheeps += target.amount;
+				}
 			}
+			bonus.amount = this.startSheepAmount - this.targetSheeps;
 		}
-		bonus.amount = this.startSheepAmount - this.targetSheeps;
 		/*
 		 * Thx to Andra Ruebsteck for this snippet
 		 */
@@ -126,7 +128,12 @@ var Game = {
 				if(!target.check()) won = false;
 			}
 			if(won) {
-				Game.startBonus();
+				if(this.bonus !== undefined) {
+					Game.startBonus();
+				}
+				else {
+					this.win();
+				}
 			}
 			if(Game.sheeps.length < Game.remaining) {
 				Game.lose();
@@ -144,10 +151,18 @@ var Game = {
 	},
 	win : function() {
 		Game.stop();
-		localStorage.setItem(Game.name, JSON.stringify({
-			count : this.bonus.count,
-			amount : this.bonus.count
-		}));
+		if(this.bonus !== undefined) {
+			localStorage.setItem(Game.name, JSON.stringify({
+				count : this.bonus.count,
+				amount : this.bonus.count
+			}));
+		}
+		else {
+			localStorage.setItem(Game.name, JSON.stringify({
+				count : 0,
+				amount : 0
+			}));
+		}
 		alert("you win!");
 		location.reload();
 	},
