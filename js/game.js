@@ -5,6 +5,7 @@ var Game = {
 	walls : [],
 	targets : [],
 	init : function(canvas, FPS, TPS, name, startvec, bonus) {
+		this.power = 10;
 		this.canvas = canvas;
 		this.name = name;
 		this.FPS = FPS;
@@ -27,6 +28,20 @@ var Game = {
 				}
 			}
 			bonus.amount = this.startSheepAmount - this.targetSheeps;
+		}
+		if(window.addEventListener) {
+			window.addEventListener('DOMMouseScroll', function(e) {
+				if(e.detail < 0) {
+					Game.wheel(false);
+				}
+				else Game.wheel(true);
+			});
+			window.addEventListener('mousewheel', function(e) {
+				if(e.wheelDelta < 0) {
+					Game.wheel(false);
+				}
+				else Game.wheel(true);
+			});
 		}
 		/*
 		 * Thx to Andra Ruebsteck for this snippet
@@ -145,6 +160,11 @@ var Game = {
 			Game.FPS--;
 			console.log("Ticktime exceeded limit. Lowering FPS to " + Game.FPS);
 		}
+	},
+	wheel : function(up) {
+		if(up && this.power < 20) this.power++;
+		if(!up && this.power > 1) this.power--;
+		console.log(this.power);
 	},
 	checkWin : function() {
 		if(!this.bonusTime) {
