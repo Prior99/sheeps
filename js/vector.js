@@ -14,7 +14,10 @@ vec.prototype = {
 	},
 	normalize : function() {
 		if(this.norm === undefined) {
-			this.norm = new vec(this.x / this.length(), this.y / this.length());
+			if(this.x == 0 && this.y == 0) 
+				this.norm = new vec(0, 0);
+			else
+				this.norm = new vec(this.x / this.length(), this.y / this.length());
 		}
 		return this.norm;
 	},

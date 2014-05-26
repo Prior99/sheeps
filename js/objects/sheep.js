@@ -9,6 +9,8 @@ var Sheep = function(obj) {
 	this.drunkrad = 0;
 	if(obj.drunkmodifier === undefined) this.drunkmod = 1;
 	else this.drunkmod = obj.drunkmodifier;
+	if(obj.herd !== undefined) this.herd = herd;
+	else this.herd = [];
 };
 
 Sheep.prototype = {
@@ -18,15 +20,14 @@ Sheep.prototype = {
 		ctx.fillStyle = "rgb("+parseInt(red)+", " + parseInt(255 - red) + ", 200)";
 		ctx.strokeStyle = "rgb(0, 0, 0)";
 		ctx.lineWidth=1;
-		var tail = this.pos.add(this.dir.mult(5));
+		/*var tail = this.pos.add(this.dir.normalize().mult(5));
 		
 		ctx.beginPath();
 		ctx.arc(tail.x, tail.y, 3, 0, 2 * Math.PI);
 		ctx.stroke();
-		ctx.fill();
+		ctx.fill();*/
 		
 		ctx.beginPath();
-		ctx.lineWidth=1;
 		ctx.arc(this.pos.x, this.pos.y, 4, 0, 2 * Math.PI);
 		ctx.stroke();
 		ctx.fill();
@@ -42,10 +43,36 @@ Sheep.prototype = {
 		var len = v.length();
 		this.len = v.length();
 		v = v.normalize();
-		this.dir = v.add(this.drunk.mult(this.drunkmod)).normalize();
 		var speed = (1/len)*49;
 		speed = speed > 5 ? 5 : speed;
-		this.pos = this.pos.add(this.dir.mult(speed));
+		//speed = speed < 0.2 ? 0 : speed;
+		this.dir = v.add(this.drunk.mult(this.drunkmod)).normalize().mult(speed);
+		//this.dir = v.mult(speed);
+		//this.dir = new vec(0, 0);
+		for(var key in this.herd) {
+			var sheep = this.herd[key];
+			if(sheep !== this) {
+				var len = sheep.pos.sub(this.pos).length();
+				if(len == 0) {
+					console.log("DAMNED");
+				}
+				if(len < 20) {//retreat
+					var speed = (1/len)*49;
+					speed = speed > 5 ? 5 : speed;
+					speed = speed < 0.2 ? 0 : speed;
+					//speed = speed < -1 ? -1 : speed > 1 ? 1 : speed;
+					var dir = this.pos.sub(sheep.pos).normalize().mult(speed/4);
+					this.dir = this.dir.add(dir);
+				}
+				if(len > 40) {//approach
+					var speed = Math.log(len + 1 - 40)*0.1;
+					var dir = sheep.pos.sub(this.pos).normalize().mult(speed/4);
+					this.dir = this.dir.add(dir);
+				}
+			}
+		}
+		
+		this.pos = this.pos.add(this.dir);
 		this.pos = this.pos.bound(Game.bound.min, Game.bound.max);
 		/*
 		 * Avoid walls
@@ -63,6 +90,8 @@ Sheep.prototype = {
 	},
 	die : function() {
 		var index;
+		if((index = this.herd.indexOf(this)) != -1)
+			this.herd.splice(index, 1);
 		if((index = Game.sheeps.indexOf(this)) != -1)
 			Game.sheeps.splice(index, 1);
 		if((index = Game.drawables.indexOf(this)) != -1)

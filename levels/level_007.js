@@ -15,10 +15,14 @@ module.exports = {
 			width: 50,
 			height: 400
 		});
+		var herd = [];
 		for(var i = 0; i < 10; i++)
-			new Sheep({
+			herd.push(new Sheep({
 				pos : [100, 50 + 50*i],
 				drunkmodifier : 3
-			});	
+			}));
+		for(var sheep in herd) {
+			herd[sheep].herd = herd;
+		}	
 	}
 };
