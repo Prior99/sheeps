@@ -42,7 +42,8 @@ Sheep.prototype = {
 		this.len = v.length();
 		v = v.normalize();
 		this.dir = v.add(this.drunk.mult(this.drunkmod)).normalize();
-		var speed = (1/len)*50;
+		var speed = (1/len)*49;
+		speed = speed > 5 ? 5 : speed;
 		this.pos = this.pos.add(this.dir.mult(speed));
 		this.pos = this.pos.bound(Game.bound.min, Game.bound.max);
 		/*
