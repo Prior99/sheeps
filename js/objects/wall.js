@@ -35,5 +35,10 @@ Wall.prototype = {
 		Game.ctx.drawHatchedRect(this.pos.x, this.pos.y, this.size.x, this.size.y, 15);
 	},
 	isSelected : Button.prototype.isSelected,
-	isClicked : Button.prototype.isClicked
+	isClicked : Button.prototype.isClicked,
+	properties : {
+		size : "vector",
+		pos : "vector",
+		deactivated: "bool"
+	}
 };

@@ -110,5 +110,8 @@ Sheep.prototype = {
 	isClicked : function(v) {
 		var radius = 4;
 		return v.sub(this.pos).length() < radius;
+	},
+	properties : {
+		pos : "vector"
 	}
 };

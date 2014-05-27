@@ -42,5 +42,10 @@ Hole.prototype = {
 	},
 	isClicked : function(v) {
 		return v.sub(this.pos).length() < this.radius;
+	},
+	properties : {
+		radius : "number",
+		pos : "vector",
+		deactivated: "bool"
 	}
 };

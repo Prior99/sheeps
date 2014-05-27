@@ -33,6 +33,13 @@ MoveableWall.prototype = {
 		}
 	},
 	isSelected : Wall.prototype.isSelected,
-	isClicked : Wall.prototype.isClicked
+	isClicked : Wall.prototype.isClicked,
+	properties : {
+		size : "vector",
+		pos : "vector",
+		loc1 : "vector",
+		loc1 : "vector",
+		deactivated: "bool"
+	}
 	
 };

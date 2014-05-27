@@ -69,5 +69,12 @@ Target.prototype = {
 			Game.tickables.splice(index, 1);
 	},
 	isSelected : Hole.prototype.isSelected,
-	isClicked : Hole.prototype.isClicked
+	isClicked : Hole.prototype.isClicked,
+	properties : {
+		radius : "number",
+		sticky : "bool",
+		pos : "vector",
+		amount : "number",
+		deactivated: "bool"
+	}
 }

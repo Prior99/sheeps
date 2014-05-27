@@ -15,7 +15,17 @@ var Editor = {
 			var rect = canvas[0].getBoundingClientRect();
 			var v = new vec(e.clientX - rect.left, e.clientY - rect.top);
 			if(e.button == 2) {
-				Editor.openCreateMenu(v);
+				var f = false;
+				for(var key in Game.drawables) {
+					var obj = Game.drawables[key];
+					if(obj.isClicked(v)) {
+						f = true;
+						Editor.openProperties(obj);
+					}
+				}
+				if(!f) {
+					Editor.openCreateMenu(v);
+				}
 			}
 			else {
 				var f = false;
@@ -108,6 +118,15 @@ var Editor = {
 		for(var key in Game.drawables) {
 			var obj = Game.drawables[key];
 			obj.draw();
+			ctx.beginPath();
+			ctx.fillStyle="red";
+			ctx.rect(obj.pos.x -15, obj.pos.y -15, 15, 15);
+			ctx.stroke();
+			ctx.fill();
+			ctx.fillStyle = "black;"
+			ctx.font = "14px Arial";
+			ctx.textAlign = "left";
+			ctx.strokeText(key, obj.pos.x -12, obj.pos.y- 4);
 		}
 		for(var key in this.selection) {
 			var obj = this.selection[key];
@@ -171,5 +190,9 @@ var Editor = {
 	},
 	cancelContext : function() {
 		if(this.context !== undefined) this.context.remove();
+	},
+	openProperties : function() {
+		var propDiv = $("<div class='properties'>Hallo</div>").appendTo(Editor.div);
+		this.context = propDiv;
 	}
 };
