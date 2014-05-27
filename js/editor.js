@@ -36,8 +36,8 @@ var Editor = {
 						Editor.grabbed = true;
 						console.log("grabbed", Editor.grabbed);
 						var index;
-						Editor.selection = [];
 						if((index = Editor.selection.indexOf(obj)) === -1) {
+							Editor.selection = [];
 							Editor.selection.push(obj);
 						}
 						f = true;
