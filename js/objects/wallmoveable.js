@@ -38,7 +38,7 @@ MoveableWall.prototype = {
 	},
 	isSelected : Wall.prototype.isSelected,
 	isClicked : Wall.prototype.isClicked,
-	properties : {
+	template : {
 		width : "number",
 		height : "number",
 		pos : "vector",

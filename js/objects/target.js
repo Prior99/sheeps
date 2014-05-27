@@ -74,7 +74,7 @@ Target.prototype = {
 	},
 	isSelected : Hole.prototype.isSelected,
 	isClicked : Hole.prototype.isClicked,
-	properties : {
+	template : {
 		radius : "number",
 		sticky : "bool",
 		pos : "vector",

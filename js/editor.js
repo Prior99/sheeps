@@ -189,9 +189,46 @@ var Editor = {
 	},
 	openProperties : function(obj) {
 		var propDiv = $("<div class='properties'></div>").appendTo(Editor.div);
-		for(var key in obj.properties) {
-			
+		var arr = [];
+		for(var key in obj.template) {
+			var type = obj.template[key];
+			var line = $("<p></p>").appendTo(propDiv);
+			line.append("<label>" + key + "</label>");
+			var value;
+			if(type == "bool") {
+				line.append(value = $("<input type='checkbox'>"));
+			}
+			else if(type == "number") {
+				line.append(value = $("<input type='text'>"));
+			}
+			else if(type == "vector") {
+				value = {
+					x : $("<input type='text'>").appendTo(line),
+					y : $("<input type='text'>").appendTo(line)
+				};
+			}
+			arr.push({
+				type : type,
+				value : value,
+				name : key
+			});
 		}
+		propDiv.append($("<button>Apply</button>").click(function() {
+			var n = {};
+			for(var key in arr) {
+				var res = arr[key];
+				if(res.type == "bool") {
+					n[res.name] = (res.value.attr('checked') === true);
+				}
+				else if(res.type == "number") {
+					n[res.name] = parseInt(res.value.val());
+				}
+				else if(res.type == "vector") {
+					n[res.name] =  [parseInt(res.value.x.val()), parseInt(res.value.y.val())];
+				}
+			}
+			obj.applyProperties(n);
+		}));
 		this.context = propDiv;
 	}
 };

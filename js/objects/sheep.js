@@ -114,7 +114,7 @@ Sheep.prototype = {
 		var radius = 4;
 		return v.sub(this.pos).length() < radius;
 	},
-	properties : {
+	template : {
 		pos : "vector"
 	}
 };

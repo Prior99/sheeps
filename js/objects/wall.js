@@ -40,8 +40,9 @@ Wall.prototype = {
 	},
 	isSelected : Button.prototype.isSelected,
 	isClicked : Button.prototype.isClicked,
-	properties : {
-		size : "vector",
+	template : {
+		width : "number",
+		height : "number",
 		pos : "vector",
 		deactivated: "bool"
 	}

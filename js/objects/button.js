@@ -76,7 +76,7 @@ Button.prototype = {
 	isClicked : function(v) {
 		return v.greaterthan(this.pos) && v.lessthan(this.pos.add(this.size));
 	},
-	properties : {
+	template : {
 		size : "number",
 		sticky : "bool",
 		pos : "vector",
