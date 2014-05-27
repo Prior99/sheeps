@@ -1,5 +1,5 @@
 var Wolf = function(obj) {
-	this.pos = new vec(obj.pos[0], obj.pos[1]);
+	this.applyProperties(obj);
 	Game.tickables.push(this);
 	Game.drawables.push(this);
 	this.dir = new vec(1, 0);
@@ -22,6 +22,10 @@ Wolf.prototype = {
 		ctx.closePath();
 		ctx.stroke();
 		ctx.fill();
+	},
+	applyProperties : function(obj) {
+		this.properties = obj;
+		this.pos = new vec(obj.pos[0], obj.pos[1]);
 	},
 	tick : function() {
 		this.dir.x = this.dir.y = 0;

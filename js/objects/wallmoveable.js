@@ -1,21 +1,25 @@
 var MoveableWall = function(obj) {
-	this.pos = new vec(obj.pos[0], obj.pos[1]);
-	this.targets = [
-		new vec(obj.loc1[0], obj.loc1[1]),
-		new vec(obj.loc2[0], obj.loc2[1])
-	];
+	this.applyProperties(obj);
 	this.target = 0;
-	this.size = new vec(obj.width, obj.height);
 	Game.tickables.push(this);
 	Game.drawables.push(this);
 	Game.walls.push(this);
 	this.active = true;
-	this.active2 = obj.deactivated == undefined || obj.deactivated == false; 
 };
 
 MoveableWall.prototype = {
 	activate : function() {
 		this.active2 = true;
+	},
+	applyProperties : function(obj) {
+		this.properties = obj;
+		this.pos = new vec(obj.pos[0], obj.pos[1]);
+		this.targets = [
+			new vec(obj.loc1[0], obj.loc1[1]),
+			new vec(obj.loc2[0], obj.loc2[1])
+		];
+		this.size = new vec(obj.width, obj.height);
+		this.active2 = obj.deactivated == undefined || obj.deactivated == false; 
 	},
 	deactivate : function() {
 		this.active2 = false;
@@ -35,7 +39,8 @@ MoveableWall.prototype = {
 	isSelected : Wall.prototype.isSelected,
 	isClicked : Wall.prototype.isClicked,
 	properties : {
-		size : "vector",
+		width : "number",
+		height : "number",
 		pos : "vector",
 		loc1 : "vector",
 		loc1 : "vector",

@@ -1,5 +1,5 @@
 var Sheep = function(obj) {
-	this.pos = new vec(obj.pos[0], obj.pos[1]);
+	this.applyProperties(obj);
 	Game.tickables.push(this);
 	Game.drawables.push(this);
 	Game.sheeps.push(this);
@@ -7,13 +7,16 @@ var Sheep = function(obj) {
 	this.drunk = new vec(0, 0);
 	this.drunkraddelta = (Math.random()-0.5)/10;
 	this.drunkrad = 0;
-	if(obj.drunkmodifier === undefined) this.drunkmod = 1;
-	else this.drunkmod = obj.drunkmodifier;
-	if(obj.herd !== undefined) this.herd = herd;
-	else this.herd = [];
 };
 
 Sheep.prototype = {
+	applyProperties : function(obj) {
+		this.pos = new vec(obj.pos[0], obj.pos[1]);
+		if(obj.drunkmodifier === undefined) this.drunkmod = 1;
+		else this.drunkmod = obj.drunkmodifier;
+		if(obj.herd !== undefined) this.herd = herd;
+		else this.herd = [];
+	},
 	draw : function() {
 		var ctx = Game.ctx;
 		var red = (this.len/800)*255;

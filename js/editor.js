@@ -187,8 +187,11 @@ var Editor = {
 	cancelContext : function() {
 		if(this.context !== undefined) this.context.remove();
 	},
-	openProperties : function() {
-		var propDiv = $("<div class='properties'>Hallo</div>").appendTo(Editor.div);
+	openProperties : function(obj) {
+		var propDiv = $("<div class='properties'></div>").appendTo(Editor.div);
+		for(var key in obj.properties) {
+			
+		}
 		this.context = propDiv;
 	}
 };

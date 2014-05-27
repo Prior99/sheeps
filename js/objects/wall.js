@@ -1,14 +1,6 @@
 var Wall = function(obj) {
-	this.pos = new vec(obj.pos[0], obj.pos[1]);
-	this.size = new vec(obj.width, obj.height);
+	this.applyProperties(obj);
 	Game.drawables.push(this);
-	if(obj.deactivated == undefined || obj.deactivated == false) {
-		Game.walls.push(this);
-		this.active = true;
-	}
-	else {
-		this.active = false;
-	}
 };
 
 Wall.prototype = {
@@ -16,6 +8,18 @@ Wall.prototype = {
 		this.active = true;
 		if(Game.walls.indexOf(this) == -1) {
 			Game.walls.push(this);
+		}
+	},
+	applyProperties : function(obj) {
+		this.properties = obj;
+		this.pos = new vec(obj.pos[0], obj.pos[1]);
+		this.size = new vec(obj.width, obj.height);
+		if(obj.deactivated == undefined || obj.deactivated == false) {
+			Game.walls.push(this);
+			this.active = true;
+		}
+		else {
+			this.active = false;
 		}
 	},
 	deactivate : function() {

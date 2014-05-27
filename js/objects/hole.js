@@ -1,14 +1,18 @@
 var Hole = function(obj) {
-	this.pos = new vec(obj.pos[0], obj.pos[1]);
-	this.radius = obj.radius;
+	this.applyProperties(obj);
 	Game.tickables.push(this);
 	Game.drawables.push(this);
-	this.active = obj.deactivated == undefined || obj.deactivated == false; 
 };
 
 Hole.prototype = {
 	activate : function() {
 		this.active = true;
+	},
+	applyProperties : function(obj) {
+		this.properties = obj;
+		this.pos = new vec(obj.pos[0], obj.pos[1]);
+		this.radius = obj.radius;
+		this.active = obj.deactivated == undefined || obj.deactivated == false; 
 	},
 	deactivate : function() {
 		this.active = false;

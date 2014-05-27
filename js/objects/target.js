@@ -1,18 +1,22 @@
 var Target = function(obj) {
-	this.pos = new vec(obj.pos[0], obj.pos[1]);
-	this.radius = obj.radius;
+	this.applyProperties(obj);
 	this.count = 0;
-	this.amount = obj.amount;
-	this.sticky = obj.sticky !== undefined;
 	Game.tickables.push(this);
 	Game.drawables.push(this);
 	Game.targets.push(this);
-	this.active = obj.deactivated == undefined || obj.deactivated == false; 
 };
 
 Target.prototype = {
 	activate : function() {
 		this.active = true;
+	},
+	applyProperties : function(obj) {
+		this.properties = obj;
+		this.pos = new vec(obj.pos[0], obj.pos[1]);
+		this.radius = obj.radius;
+		this.amount = obj.amount;
+		this.sticky = obj.sticky !== undefined;
+		this.active = obj.deactivated == undefined || obj.deactivated == false; 
 	},
 	deactivate : function() {
 		this.active = false;

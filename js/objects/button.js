@@ -1,7 +1,5 @@
 var Button = function(obj) {
-	this.pos = new vec(obj.pos[0], obj.pos[1]);
-	this.size = new vec(obj.width, obj.height);
-	this.sticky = obj.sticky !== undefined;
+	this.applyProperties(obj);
 	Game.tickables.push(this);
 	Game.drawables.push(this);
 	if(obj.targets == undefined && obj.target != undefined) {
@@ -11,14 +9,19 @@ var Button = function(obj) {
 		this.targets = obj.targets;
 	}
 	this.pressed = false;
-	if(obj.amount == undefined)
-		this.amount = 1;
-	else
-		this.amount = obj.amount;
 	this.count = 0;
 };
 
 Button.prototype = {
+	applyProperties : function(obj) {
+		this.pos = new vec(obj.pos[0], obj.pos[1]);
+		this.size = new vec(obj.width, obj.height);
+		this.sticky = obj.sticky !== undefined;
+		if(obj.amount == undefined)
+			this.amount = 1;
+		else
+			this.amount = obj.amount;
+	},
 	draw : function() {
 		var ctx = Game.ctx;
 		ctx.strokeStyle = "black";
