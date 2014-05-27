@@ -120,7 +120,15 @@ var Editor = {
 		for(var key in Game.drawables) {
 			var obj = Game.drawables[key];
 			obj.draw();
+			for(var i in obj.herd) {
+				ctx.strokeStyle = "rgba(120, 120, 120, 0.2)";
+				ctx.beginPath();
+				ctx.moveTo(obj.pos.x, obj.pos.y);
+				ctx.lineTo(obj.herd[i].pos.x, obj.herd[i].pos.y);
+				ctx.stroke();
+			}
 			ctx.beginPath();
+			ctx.strokeStyle = "black";
 			if(this.selection.indexOf(obj) === -1)
 				ctx.fillStyle="lightblue";
 			else
