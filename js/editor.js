@@ -119,7 +119,10 @@ var Editor = {
 			var obj = Game.drawables[key];
 			obj.draw();
 			ctx.beginPath();
-			ctx.fillStyle="red";
+			if(this.selection.indexOf(obj) === -1)
+				ctx.fillStyle="lightblue";
+			else
+				ctx.fillStyle="red";
 			ctx.rect(obj.pos.x -15, obj.pos.y -15, 15, 15);
 			ctx.stroke();
 			ctx.fill();
@@ -127,13 +130,6 @@ var Editor = {
 			ctx.font = "14px Arial";
 			ctx.textAlign = "left";
 			ctx.strokeText(key, obj.pos.x -12, obj.pos.y- 4);
-		}
-		for(var key in this.selection) {
-			var obj = this.selection[key];
-			ctx.beginPath();
-			ctx.fillStyle = "red";
-			ctx.arc(obj.pos.x, obj.pos.y, 20, 0, Math.PI *2);
-			ctx.fill();
 		}
 		Editor.drawselection();
 		window.requestAnimationFrame(function() {
