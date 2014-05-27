@@ -8,6 +8,7 @@ var Bonus = function(obj) {
 };
 
 Bonus.prototype = {
+	name : "Bonus",
 	draw : function() {
 		var ctx = Game.ctx;
 		ctx.fillStyle = "#FFF29C";

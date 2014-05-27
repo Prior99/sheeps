@@ -5,6 +5,7 @@ var Hole = function(obj) {
 };
 
 Hole.prototype = {
+	name : "Hole",
 	activate : function() {
 		this.active = true;
 	},

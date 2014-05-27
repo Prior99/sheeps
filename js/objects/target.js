@@ -7,6 +7,7 @@ var Target = function(obj) {
 };
 
 Target.prototype = {
+	name : "Target",
 	activate : function() {
 		this.active = true;
 	},

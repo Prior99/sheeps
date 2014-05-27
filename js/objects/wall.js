@@ -4,6 +4,7 @@ var Wall = function(obj) {
 };
 
 Wall.prototype = {
+	name : "Wall",
 	activate : function() {
 		this.active = true;
 		if(Game.walls.indexOf(this) == -1) {

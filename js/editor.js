@@ -250,6 +250,27 @@ var Editor = {
 		this.context = propDiv;
 	},
 	export : function() {
-		
+		var string = "function() {\n";
+		for(var key in Game.drawables) {
+			var object = Game.drawables[key];
+			var name = object.name;
+			var index = key;
+			string += "\tnew " + name + "({\n";
+			for(var i in object.template) {
+				var type = object.template[i];
+				if(type == "bool") {
+					string += "\t\t" + i + " : " + (object.properties[i] == true) + ",\n";
+				}
+				else if(type == "number") {
+					string += "\t\t" + i + " : " + object.properties[i] + ",\n";
+				}
+				else if(type == "vector") {
+					string += "\t\t" + i + " : [" + object.properties[i][0] + ", " + object.properties[i][1] + "],\n";
+				}
+			}
+			string += "\t});\n";
+		}
+		string += "}";
+		console.log(string);
 	}
 };

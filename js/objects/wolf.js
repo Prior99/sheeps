@@ -6,6 +6,7 @@ var Wolf = function(obj) {
 }
 
 Wolf.prototype = {
+	name : "Wolf",
 	draw : function() {
 		var ctx = Game.ctx;
 		ctx.fillStyle = "rgb(255, 200, 200)";

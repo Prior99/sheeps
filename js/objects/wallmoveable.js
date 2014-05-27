@@ -8,6 +8,7 @@ var MoveableWall = function(obj) {
 };
 
 MoveableWall.prototype = {
+	name : "MoveableWall",
 	activate : function() {
 		this.active2 = true;
 	},

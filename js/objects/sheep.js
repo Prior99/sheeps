@@ -11,6 +11,7 @@ var Sheep = function(obj) {
 };
 
 Sheep.prototype = {
+	name : "Sheep",
 	applyProperties : function(obj) {
 		this.pos = new vec(obj.pos[0], obj.pos[1]);
 		if(obj.drunkmodifier === undefined) this.drunkmod = 1;
