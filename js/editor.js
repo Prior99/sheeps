@@ -35,7 +35,9 @@ var Editor = {
 						console.log("Clicked");
 						Editor.grabbed = true;
 						console.log("grabbed", Editor.grabbed);
-						if(Editor.selection.indexOf(obj) === -1) {
+						var index;
+						Editor.selection = [];
+						if((index = Editor.selection.indexOf(obj)) === -1) {
 							Editor.selection.push(obj);
 						}
 						f = true;
@@ -246,5 +248,8 @@ var Editor = {
 			propDiv.remove();
 		}));
 		this.context = propDiv;
+	},
+	export : function() {
+		
 	}
 };
