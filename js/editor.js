@@ -196,15 +196,15 @@ var Editor = {
 			line.append("<label>" + key + "</label>");
 			var value;
 			if(type == "bool") {
-				line.append(value = $("<input type='checkbox'>"));
+				line.append(value = $("<input type='checkbox' " + (obj.properties[key] === true ? "checked='true'" : "") + ">"));
 			}
 			else if(type == "number") {
-				line.append(value = $("<input type='text'>"));
+				line.append(value = $("<input type='text' value='" + obj.properties[key] + "'>"));
 			}
 			else if(type == "vector") {
 				value = {
-					x : $("<input type='text'>").appendTo(line),
-					y : $("<input type='text'>").appendTo(line)
+					x : $("<input type='text' value='" + obj.properties[key][0] + "'>").appendTo(line),
+					y : $("<input type='text' value='" + obj.properties[key][1] + "'>").appendTo(line)
 				};
 			}
 			arr.push({
@@ -218,7 +218,7 @@ var Editor = {
 			for(var key in arr) {
 				var res = arr[key];
 				if(res.type == "bool") {
-					n[res.name] = (res.value.attr('checked') === true);
+					n[res.name] = res.value.prop("checked");
 				}
 				else if(res.type == "number") {
 					n[res.name] = parseInt(res.value.val());
@@ -228,6 +228,7 @@ var Editor = {
 				}
 			}
 			obj.applyProperties(n);
+			propDiv.remove();
 		}));
 		this.context = propDiv;
 	}
