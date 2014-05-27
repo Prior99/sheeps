@@ -15,6 +15,7 @@ var Button = function(obj) {
 Button.prototype = {
 	name : "Button",
 	applyProperties : function(obj) {
+		this.properties = obj;
 		this.pos = new vec(obj.pos[0], obj.pos[1]);
 		this.size = new vec(obj.width, obj.height);
 		this.sticky = obj.sticky !== undefined;
