@@ -150,8 +150,23 @@ var Editor = {
 				var sheep = new Sheep({
 					pos : [v.x, v.y]
 				});
-				sheep.len = 0;
 				
+			}))
+			.append($("<div class='entry'>Herd (Circle)</div>").click(function() {
+				Editor.cancelContext();
+				var propDiv = $("<div class='properties'></div>").appendTo(Editor.div);
+				Editor.context = propDiv;
+				var radius, amount;
+				propDiv.append($("<p></p>").append("<label>Radius</label>").append(radius = $("<input type='text'>")))
+					.append($("<p></p>").append("<label>Amount</label>").append(amount = $("<input type='text'>")))
+					.append($("<button>OK</button>").click(function() {
+						drawSheepCircle({
+							center : [v.x, v.y],
+							radius : parseInt(radius.val()),
+							amount : parseInt(amount.val())
+						});
+						Editor.cancelContext();
+					}));
 			}))
 			.append($("<div class='entry'>Wolf</div>").click(function() {
 				Editor.cancelContext();

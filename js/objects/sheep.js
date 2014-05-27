@@ -7,6 +7,7 @@ var Sheep = function(obj) {
 	this.drunk = new vec(0, 0);
 	this.drunkraddelta = (Math.random()-0.5)/10;
 	this.drunkrad = 0;
+	this.len = 0;
 };
 
 Sheep.prototype = {
