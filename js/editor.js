@@ -250,12 +250,19 @@ var Editor = {
 		this.context = propDiv;
 	},
 	export : function() {
+		var sheeps = [];
 		var string = "function() {\n";
+		string += "\t/*\n";
+		string += "\t * Create and initialize all objects\n";
+		string += "\t */\n";
+		string += "\n";
+		string += "\t var objects = [];\n";
 		for(var key in Game.drawables) {
 			var object = Game.drawables[key];
 			var name = object.name;
+			if(name == "Sheep") sheeps.push(object);
 			var index = key;
-			string += "\tnew " + name + "({\n";
+			string += "\tobjects[" + index + "] = new " + name + "({\n";
 			for(var i in object.template) {
 				var type = object.template[i];
 				if(type == "bool") {
@@ -269,6 +276,36 @@ var Editor = {
 				}
 			}
 			string += "\t});\n";
+		}
+		string += "\t/*\n";
+		string += "\t * Assign all sheeps to their respective herds\n";
+		string += "\t */\n";
+		string += "\n";
+		string += "\tvar herds = [];\n";
+		/*
+		 * Herden
+		 */
+		var herdnum = 0; //Index im späteren Array
+		while(sheeps.length > 0) {
+			var sheep = sheeps[0];
+			sheeps.splice(0, 1);
+			var herdreferenced = sheep.herd;
+			var herdplain = [];
+			for(var i in herdreferenced) {
+				sheeps.splice(sheeps.indexOf(herdreferenced[i]), 1);
+				herdplain.push(Game.drawables.indexOf(herdreferenced[i]));
+			}
+			//An dieser Stelle ist herdplain bekannt, ein Array mit den indizes aller schafe in diesem Array.
+			string += "\therds[" + herdnum + "] = [";
+			for(var j = 0; j < herdplain.length; j++) {
+				string += "objects[" + herdplain[j] + "]";
+				if(j != herdplain.length -1) string += ",";
+			}
+			string += "];\n";
+			string += "\tfor(var index in herds[" + herdnum + "]) {\n";
+			string += "\t\therds[" + herdnum + "][index].herd = herds[" + herdnum + "];\n";
+			string += "\t}\n";
+			herdnum++;
 		}
 		string += "}";
 		console.log(string);
