@@ -120,6 +120,40 @@ var Editor = {
 	draw : function() {
 		var ctx = Editor.ctx;
 		ctx.clearRect(0, 0, 800, 600);
+		ctx.lineWidth = 1;
+		ctx.fillStyle = "#FFD0E9";
+		ctx.font = "12px Arial";
+		ctx.fillText(0, 2, 8);
+		for(var x = 20; x < 800; x+= 20) {
+			ctx.beginPath();
+			if(x % 100 == 0)  {
+				ctx.strokeStyle = "#FFD0E9";
+				ctx.moveTo(x + 0.5, 0);
+				ctx.lineTo(x + 0.5, 600);
+				ctx.fillText(x, x + 2, 10);
+			}
+			else {
+				ctx.strokeStyle = "#EAD0FF";
+				ctx.moveTo(x + 0.5, 10);
+				ctx.lineTo(x + 0.5, 590);
+			}
+			ctx.stroke();
+		}
+		for(var y = 20; y < 800; y+= 20) {
+			ctx.beginPath();
+			if(y % 100 == 0)  {
+				ctx.strokeStyle = "#FFD0E9";
+				ctx.moveTo(0, y + 0.5);
+				ctx.lineTo(800, y + 0.5);
+				ctx.fillText(y, 0, y + 10);
+			}
+			else {
+				ctx.strokeStyle = "#EAD0FF";
+				ctx.moveTo(10, y + 0.5);
+				ctx.lineTo(790, y + 0.5);
+			}
+			ctx.stroke();
+		}
 		for(var key in Game.drawables) {
 			var obj = Game.drawables[key];
 			obj.draw();
