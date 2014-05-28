@@ -83,7 +83,7 @@ var Game = {
 		}, 100/FPS);*/
 		this.lastFrame = 0;
 		this.draw();
-		this.tickInterval = setInterval(function() {
+		this.tickInterval = setTimeout(function() {
 			Game.tick();
 		}, 1000/Game.TPS);
 	},
@@ -102,9 +102,6 @@ var Game = {
 			}
 			
 			Game.drawInfo();
-			if(!Game.stopped) window.requestAnimationFrame(function() {
-				Game.draw();
-			});
 			Game.cursor.draw(ctx);
 			this.ctx.translate(-20, -20);
 			this.lastFrame = new Date().getTime();
@@ -126,6 +123,9 @@ var Game = {
 			Game.FPS--;
 			console.log("Ticktime exceeded limit. Lowering FPS to " + Game.FPS);
 		}
+		Game.tickInterval = setTimeout(function() {
+			Game.tick();
+		}, 1000/Game.TPS - this.tps);
 	},
 	wheel : function(up) {
 		if(up && this.power < 20) this.power++;
