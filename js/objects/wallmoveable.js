@@ -25,7 +25,21 @@ MoveableWall.prototype = {
 	deactivate : function() {
 		this.active2 = false;
 	},
-	draw : Wall.prototype.draw,
+	draw : function() {
+		Game.ctx.beginPath();
+		Game.ctx.strokeStyle = "rgba(140, 140, 140, 0.5)";
+		var p = this.targets[0];
+		var s = this.targets[1].sub(this.targets[0]).add(this.size);
+		Game.ctx.drawHatchedRect(p.x, p.y, s.x, s.y, 15);
+		Game.ctx.strokeStyle = "black";
+		Game.ctx.beginPath();
+		Game.ctx.fillStyle = "rgb(255, 255, 200)";
+		if(this.active) Game.ctx.strokeStyle = "rgb(0, 0, 0)";
+		else Game.ctx.strokeStyle = "rgb(80, 80, 80)";
+		Game.ctx.rect(this.pos.x, this.pos.y, this.size.x, this.size.y);
+		if(this.active) Game.ctx.fill();
+		Game.ctx.drawHatchedRect(this.pos.x, this.pos.y, this.size.x, this.size.y, 15);
+	},
 	tick : function() {
 		if(!this.active2) return;
 		var target = this.targets[this.target];
@@ -34,7 +48,7 @@ MoveableWall.prototype = {
 		}
 		else {
 			var v = target.sub(this.pos).normalize();
-			this.pos = this.pos.add(v.mult(0.5));
+			this.pos = this.pos.add(v.mult(2));
 		}
 	},
 	isSelected : Wall.prototype.isSelected,
