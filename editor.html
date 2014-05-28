@@ -10,7 +10,8 @@
 		<script>
 			var div = $("<div class='ewrapper'></div>").appendTo("div.wrapper");
 			var canvas = $('<canvas class="editor" id="canvas" width="800" height="600"></canvas>').appendTo(div);
-			Editor.init(canvas, div);
+			var side = $("<div class='eside'></div>").appendTo(div);
+			Editor.init(canvas, div, side);
 		</script>
 	</body>
 </html>

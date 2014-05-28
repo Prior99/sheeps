@@ -1,5 +1,7 @@
 var Editor = {
-	init : function(canvas, div) {
+	init : function(canvas, div, side) {
+		this.sidebar = side;
+		this.logics = [];
 		this.ctx = canvas[0].getContext("2d");
 		Game.ctx = this.ctx;
 		registerHatched(this.ctx);
@@ -154,13 +156,14 @@ var Editor = {
 					pos: [v.x, v.y],
 					radius: 20
 				});
+				Editor.recreateSidebar();
 			}))
 			.append($("<div class='entry'>Sheep</div>").click(function() {
 				Editor.cancelContext();
 				var sheep = new Sheep({
 					pos : [v.x, v.y]
 				});
-				
+				Editor.recreateSidebar();
 			}))
 			.append($("<div class='entry'>Herd (Circle)</div>").click(function() {
 				Editor.cancelContext();
@@ -176,6 +179,7 @@ var Editor = {
 							amount : parseInt(amount.val())
 						});
 						Editor.cancelContext();
+						Editor.recreateSidebar();
 					}));
 			}))
 			.append($("<div class='entry'>Wolf</div>").click(function() {
@@ -183,6 +187,7 @@ var Editor = {
 				new Wolf({
 					pos : [v.x, v.y]
 				});
+				Editor.recreateSidebar();
 			}))
 			.append($("<div class='entry'>Target</div>").click(function() {
 				Editor.cancelContext();
@@ -191,6 +196,7 @@ var Editor = {
 					amount: 1,
 					radius: 20
 				});
+				Editor.recreateSidebar();
 			}))
 			.append($("<div class='entry'>Wall</div>").click(function() {
 				Editor.cancelContext();
@@ -199,6 +205,7 @@ var Editor = {
 					width: 50,
 					height: 50
 				});
+				Editor.recreateSidebar();
 			}))
 			.append($("<div class='entry'>Button</div>").click(function() {
 				Editor.cancelContext();
@@ -207,6 +214,7 @@ var Editor = {
 					width: 50,
 					height: 50
 				});
+				Editor.recreateSidebar();
 			}));
 	},
 	cancelContext : function() {
@@ -317,5 +325,21 @@ var Editor = {
 		}
 		string += "}";
 		console.log(string);
+	},
+	recreateSidebar : function() {
+		this.sidebar.html("");
+		for(var key in this.logics) {
+			var elem = $("<div class='elem'></div>")
+				.append("<div class='id logic'>" + key + "</div>")
+				.append(this.logics[key].name);
+			if(this.logics[key].inputs !== undefined) elem.append(" (" + this.logics[key].inputs + ")");
+			this.sidebar.append(elem);
+		}
+		for(var key in Game.drawables) {
+			var elem = $("<div class='elem'></div>")
+				.append("<div class='id object'>" + key + "</div>")
+				.append(Game.drawables[key].name);
+			this.sidebar.append(elem);
+		}
 	}
 };

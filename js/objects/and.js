@@ -5,6 +5,7 @@ var And = function(target, inputs) {
 }
 
 And.prototype = {
+	name: "And",
 	activate : function() {
 		this.count++;
 		if(this.count >= this.inputs) {

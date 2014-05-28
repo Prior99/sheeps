@@ -3,6 +3,7 @@ var Not = function(target) {
 }
 
 Not.prototype = {
+	name : "Not",
 	activate : function() {
 		this.target.deactivate();
 	},
