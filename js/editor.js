@@ -304,7 +304,7 @@ var Editor = {
 		if(obj.islogic) {
 			var line = $("<p></p>");
 			line.append("<label>Target</label>");
-			line.append(ltarget = $("<input type='text' value='" + Editor.indexOf(obj.target) + "'>"));
+			line.append(ltarget = $("<input type='text' value='" + Editor.objects.indexOf(obj.target) + "'>"));
 			line.appendTo(propDiv);
 		}
 		propDiv.append($("<button>Apply</button>").click(function() {
