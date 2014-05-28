@@ -1,7 +1,7 @@
 var Editor = {
 	init : function(canvas, div, side) {
 		this.sidebar = side;
-		this.logics = [];
+		this.objects = [];
 		this.ctx = canvas[0].getContext("2d");
 		Game.ctx = this.ctx;
 		registerHatched(this.ctx);
@@ -152,17 +152,17 @@ var Editor = {
 		this.context = $("<div style='left: " + v.x + "; top: " + v.y + "' class='context'></div>").appendTo(this.div)
 			.append($("<div class='entry'>Hole</div>").click(function() {
 				Editor.cancelContext();
-				new Hole({
+				Editor.objects.push(new Hole({
 					pos: [v.x, v.y],
 					radius: 20
-				});
+				}));
 				Editor.recreateSidebar();
 			}))
 			.append($("<div class='entry'>Sheep</div>").click(function() {
 				Editor.cancelContext();
-				var sheep = new Sheep({
+				Editor.objects.push(new Sheep({
 					pos : [v.x, v.y]
-				});
+				}));
 				Editor.recreateSidebar();
 			}))
 			.append($("<div class='entry'>Herd (Circle)</div>").click(function() {
@@ -173,48 +173,102 @@ var Editor = {
 				propDiv.append($("<p></p>").append("<label>Radius</label>").append(radius = $("<input type='text'>")))
 					.append($("<p></p>").append("<label>Amount</label>").append(amount = $("<input type='text'>")))
 					.append($("<button>OK</button>").click(function() {
-						drawSheepCircle({
+						var arr = drawSheepCircle({
 							center : [v.x, v.y],
 							radius : parseInt(radius.val()),
 							amount : parseInt(amount.val())
 						});
+						for(var i in arr) {
+							Editor.objects.push(arr[i]);
+						}
 						Editor.cancelContext();
 						Editor.recreateSidebar();
 					}));
 			}))
 			.append($("<div class='entry'>Wolf</div>").click(function() {
 				Editor.cancelContext();
-				new Wolf({
+				Editor.objects.push(new Wolf({
 					pos : [v.x, v.y]
-				});
+				}));
 				Editor.recreateSidebar();
 			}))
 			.append($("<div class='entry'>Target</div>").click(function() {
 				Editor.cancelContext();
-				new Target({
+				Editor.objects.push(new Target({
 					pos: [v.x, v.y],
 					amount: 1,
 					radius: 20
-				});
+				}));
 				Editor.recreateSidebar();
 			}))
 			.append($("<div class='entry'>Wall</div>").click(function() {
 				Editor.cancelContext();
-				new Wall({
+				Editor.objects.push(new Wall({
 					pos: [v.x, v.y],
 					width: 50,
 					height: 50
-				});
+				}));
 				Editor.recreateSidebar();
 			}))
 			.append($("<div class='entry'>Button</div>").click(function() {
 				Editor.cancelContext();
-				new Button({
-					pos: [v.x, v.y],
-					width: 50,
-					height: 50
-				});
-				Editor.recreateSidebar();
+				var propDiv = $("<div class='properties'></div>").appendTo(Editor.div);
+				Editor.context = propDiv;
+				var target;
+				propDiv.append($("<p></p>").append("<label>Target<label>").append(target = $("<input type='text'>")))
+					.append($("<button>OK</button>").click(function() {
+						if(target.val() >= 0 && target.val() < Editor.objects.length) {
+							Editor.objects.push(new Button({
+								pos: [v.x, v.y],
+								width: 50,
+								height: 50,
+								target : Editor.objects[target.val()]
+							}));
+							Editor.cancelContext();
+							Editor.recreateSidebar();
+						}
+						else {
+							alert("Invalid id");
+						}
+					}));
+			}))
+			.append($("<div class='entry'>Not</div>").click(function() {
+				Editor.cancelContext();
+				var propDiv = $("<div class='properties'></div>").appendTo(Editor.div);
+				Editor.context = propDiv;
+				var target;
+				propDiv.append($("<p></p>").append("<label>Target<label>").append(target = $("<input type='text'>")))
+					.append($("<button>OK</button>").click(function() {
+						if(target.val() >= 0 && target.val() < Editor.objects.length) {
+							Editor.objects.push(new Not(Editor.objects[target.val()]));
+							Editor.cancelContext();
+							Editor.recreateSidebar();
+						}
+						else {
+							alert("Invalid id");
+						}
+					}));
+			}))
+			.append($("<div class='entry'>And</div>").click(function() {
+				Editor.cancelContext();
+				var propDiv = $("<div class='properties'></div>").appendTo(Editor.div);
+				Editor.context = propDiv;
+				var target, inputs;
+				propDiv.append($("<p></p>").append("<label>Target<label>").append(target = $("<input type='text'>")))
+					.append($("<p></p>").append("<label>Inputs<label>").append(inputs = $("<input type='text'>")))
+					.append($("<button>OK</button>").click(function() {
+						if(target.val() >= 0 && target.val() < Editor.objects.length) {
+							Editor.objects.push(new And({
+								target: Editor.objects[parseInt(target.val())], 
+								inputs : parseInt(inputs.val())
+							}));
+							Editor.cancelContext();
+							Editor.recreateSidebar();
+						}
+						else {
+							alert("Invalid id");
+						}
+					}));
 			}));
 	},
 	cancelContext : function() {
@@ -223,6 +277,7 @@ var Editor = {
 	openProperties : function(obj) {
 		var propDiv = $("<div class='properties'></div>").appendTo(Editor.div);
 		var arr = [];
+		var ltarget;
 		for(var key in obj.template) {
 			var type = obj.template[key];
 			var line = $("<p></p>").appendTo(propDiv);
@@ -246,7 +301,23 @@ var Editor = {
 				name : key
 			});
 		}
+		if(obj.islogic) {
+			var line = $("<p></p>");
+			line.append("<label>Target</label>");
+			line.append(ltarget = $("<input type='text' value='" + Editor.indexOf(obj.target) + "'>"));
+			line.appendTo(propDiv);
+		}
 		propDiv.append($("<button>Apply</button>").click(function() {
+			if(obj.islogic) {
+				var idx = parseInt(ltarget.val());
+				if(idx >= 0 && idx < Editor.objects.length) {
+					obj.target = Editor.objects[idx];
+				}
+				else {
+					alert("Invalid id");
+					return;
+				}
+			}
 			var n = {};
 			for(var key in arr) {
 				var res = arr[key];
@@ -262,6 +333,7 @@ var Editor = {
 			}
 			obj.applyProperties(n);
 			propDiv.remove();
+			Editor.recreateSidebar();
 		}));
 		this.context = propDiv;
 	},
@@ -273,8 +345,8 @@ var Editor = {
 		string += "\t */\n";
 		string += "\n";
 		string += "\t var objects = [];\n";
-		for(var key in Game.drawables) {
-			var object = Game.drawables[key];
+		for(var key in this.objects) {
+			var object = this.objects[key];
 			var name = object.name;
 			if(name == "Sheep") sheeps.push(object);
 			var index = key;
@@ -309,7 +381,7 @@ var Editor = {
 			var herdplain = [];
 			for(var i in herdreferenced) {
 				sheeps.splice(sheeps.indexOf(herdreferenced[i]), 1);
-				herdplain.push(Game.drawables.indexOf(herdreferenced[i]));
+				herdplain.push(this.objects.indexOf(herdreferenced[i]));
 			}
 			//An dieser Stelle ist herdplain bekannt, ein Array mit den indizes aller schafe in diesem Array.
 			string += "\therds[" + herdnum + "] = [";
@@ -328,18 +400,23 @@ var Editor = {
 	},
 	recreateSidebar : function() {
 		this.sidebar.html("");
-		for(var key in this.logics) {
-			var elem = $("<div class='elem'></div>")
-				.append("<div class='id logic'>" + key + "</div>")
-				.append(this.logics[key].name);
-			if(this.logics[key].inputs !== undefined) elem.append(" (" + this.logics[key].inputs + ")");
-			this.sidebar.append(elem);
-		}
-		for(var key in Game.drawables) {
-			var elem = $("<div class='elem'></div>")
-				.append("<div class='id object'>" + key + "</div>")
-				.append(Game.drawables[key].name);
-			this.sidebar.append(elem);
+		for(var key in this.objects) {
+			(function(obj) {
+				var id = $("<div class='id'>" + key + "</div>");
+				var elem = $("<div class='elem'></div>")
+					.append(id)
+					.append(obj.name);
+				if(obj.islogic !==undefined && obj.islogic === true) {
+					id.addClass("logic");
+					elem.append(" -> " + Editor.objects.indexOf(obj.target));
+				}
+				else id.addClass("object");
+				if(obj.inputs !== undefined) elem.append(" (" + obj.inputs + ")");
+				elem.click(function(e) {
+					Editor.openProperties(obj);
+				});
+				Editor.sidebar.append(elem);
+			})(this.objects[key]);
 		}
 	}
 };

@@ -2,12 +2,6 @@ var Button = function(obj) {
 	this.applyProperties(obj);
 	Game.tickables.push(this);
 	Game.drawables.push(this);
-	if(obj.targets == undefined && obj.target != undefined) {
-		this.targets = [obj.target];
-	}
-	else {
-		this.targets = obj.targets;
-	}
 	this.pressed = false;
 	this.count = 0;
 };
@@ -19,11 +13,15 @@ Button.prototype = {
 		this.pos = new vec(obj.pos[0], obj.pos[1]);
 		this.size = new vec(obj.width, obj.height);
 		this.sticky = obj.sticky !== undefined;
-		if(obj.amount == undefined)
+		if(obj.amount == undefined) {
 			this.amount = 1;
+			obj.amount = 1;
+		}
 		else
 			this.amount = obj.amount;
+		this.target = obj.target;
 	},
+	islogic : true,
 	draw : function() {
 		var ctx = Game.ctx;
 		ctx.strokeStyle = "black";
@@ -61,14 +59,10 @@ Button.prototype = {
 		}
 		var nowpressed = this.count >= this.amount;
 		if(nowpressed && !this.pressed) {
-			for(var key in this.targets) {
-				this.targets[key].activate();
-			}
+			this.target.activate();
 		}
 		if(!nowpressed && this.pressed) {
-			for(var key in this.targets) {
-				this.targets[key].deactivate();
-			}
+			this.target.deactivate();
 		}
 		this.pressed = nowpressed;
 	},
@@ -79,7 +73,8 @@ Button.prototype = {
 		return v.greaterthan(this.pos) && v.lessthan(this.pos.add(this.size));
 	},
 	template : {
-		size : "number",
+		width : "number",
+		height : "number",
 		sticky : "bool",
 		pos : "vector",
 		amount : "number"

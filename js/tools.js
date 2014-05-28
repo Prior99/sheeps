@@ -10,6 +10,7 @@ function drawSheepCircle(obj) {
 	for(var i in herd) {
 		herd[i].herd = herd;
 	}
+	return herd;
 }
 
 function registerHatched(ctx) {

@@ -7,6 +7,7 @@ Not.prototype = {
 	activate : function() {
 		this.target.deactivate();
 	},
+	islogic : true,
 	deactivate : function() {
 		this.target.activate();
 	}

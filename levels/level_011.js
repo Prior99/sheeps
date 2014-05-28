@@ -24,18 +24,18 @@ module.exports = {
 			pos : [400, 300],
 			radius: 50
 		});
-		var and = new And(new Not(hole), 2);
+		var and = new And({target: new Not(hole), inputs :2});
 		new Button({
 			pos : [550, 100],
 			width: 200,
 			height: 100,
-			targets : [and]
+			target : and
 		});
 		new Button({
 			pos : [50, 100],
 			width: 200,
 			height: 100,
-			targets : [and]
+			target : and
 		});
 		for(var i = 0; i < 5; i++)
 			new Sheep({

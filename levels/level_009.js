@@ -34,7 +34,7 @@ module.exports = {
 			height: 50,
 			sticky: true,
 			amount : 5,
-			targets : [new Not(walls[0])]
+			target : new Not(walls[0])
 		});
 		new Button({
 			pos : [150, 500],
@@ -42,7 +42,7 @@ module.exports = {
 			height: 50,
 			sticky: true,
 			amount : 5,
-			targets : [new Not(walls[1])]
+			target : new Not(walls[1])
 		});
 		for(var i = 0; i < 20; i++)
 			new Sheep({
