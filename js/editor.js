@@ -7,6 +7,7 @@ var Editor = {
 		registerHatched(this.ctx);
 		this.div = div;
 		this.selection = [];
+		this.recreateSidebar();
 		document.oncontextmenu = function(e) {
 			e.preventDefault();
 			return false;
@@ -341,38 +342,38 @@ var Editor = {
 		var sheeps = [];
 		var logics = [];
 		var string = "function() {\n";
-		string += "\t/*\n";
-		string += "\t * Create and initialize all objects\n";
-		string += "\t */\n";
+		string += "\t\t/*\n";
+		string += "\t\t * Create and initialize all objects\n";
+		string += "\t\t */\n";
 		string += "\n";
-		string += "\tvar objects = [];\n";
+		string += "\t\tvar objects = [];\n";
 		for(var key in this.objects) {
 			var object = this.objects[key];
 			var name = object.name;
 			if(name == "Sheep") sheeps.push(object);
 			if(object.islogic) logics.push(object);
 			var index = key;
-			string += "\tobjects[" + index + "] = new " + name + "({\n";
+			string += "\t\tobjects[" + index + "] = new " + name + "({\n";
 			for(var i in object.template) {
 				var type = object.template[i];
 				if(type == "bool") {
-					string += "\t\t" + i + " : " + (object.properties[i] == true) + ",\n";
+					string += "\t\t\t" + i + " : " + (object.properties[i] == true) + ",\n";
 				}
 				else if(type == "number") {
-					string += "\t\t" + i + " : " + object.properties[i] + ",\n";
+					string += "\t\t\t" + i + " : " + object.properties[i] + ",\n";
 				}
 				else if(type == "vector") {
-					string += "\t\t" + i + " : [" + object.properties[i][0] + ", " + object.properties[i][1] + "],\n";
+					string += "\t\t\t" + i + " : [" + object.properties[i][0] + ", " + object.properties[i][1] + "],\n";
 				}
 			}
-			string += "\t});\n";
+			string += "\t\t});\n";
 		}
 		string += "\n";
-		string += "\t/*\n";
-		string += "\t * Assign all sheeps to their respective herds\n";
-		string += "\t */\n";
+		string += "\t\t/*\n";
+		string += "\t\t * Assign all sheeps to their respective herds\n";
+		string += "\t\t */\n";
 		string += "\n";
-		string += "\tvar herds = [];\n";
+		string += "\t\tvar herds = [];\n";
 		/*
 		 * Herden
 		 */
@@ -387,36 +388,68 @@ var Editor = {
 				herdplain.push(this.objects.indexOf(herdreferenced[i]));
 			}
 			//An dieser Stelle ist herdplain bekannt, ein Array mit den indizes aller schafe in diesem Array.
-			string += "\therds[" + herdnum + "] = [";
+			string += "\t\therds[" + herdnum + "] = [";
 			for(var j = 0; j < herdplain.length; j++) {
 				string += "objects[" + herdplain[j] + "]";
 				if(j != herdplain.length -1) string += ",";
 			}
 			string += "];\n";
-			string += "\tfor(var index in herds[" + herdnum + "]) {\n";
-			string += "\t\therds[" + herdnum + "][index].herd = herds[" + herdnum + "];\n";
-			string += "\t}\n";
+			string += "\t\tfor(var index in herds[" + herdnum + "]) {\n";
+			string += "\t\t\therds[" + herdnum + "][index].herd = herds[" + herdnum + "];\n";
+			string += "\t\t}\n";
 			herdnum++;
 		}
 		/*
 		 * Logics
 		 */
-		string += "\n";
-		string += "\t/*\n";
-		string += "\t * Build all connections between logic components\n";
-		string += "\t */\n";
-		string += "\n";
-		for(var i in logics) {
-			var logic = logics[i];
-			var idx = Editor.objects.indexOf(logic.target);
-			var index = Editor.objects.indexOf(logic);
-			string += "\tobjects[" + index + "].target = objects[" + index + "].properties.target = objects[" + idx + "];\n"
+		 if(logics.length > 0) {
+			string += "\n";
+			string += "\t\t/*\n";
+			string += "\t\t * Build all connections between logic components\n";
+			string += "\t\t */\n";
+			string += "\n";
+			for(var i in logics) {
+				var logic = logics[i];
+				var idx = Editor.objects.indexOf(logic.target);
+				var index = Editor.objects.indexOf(logic);
+				string += "\t\tobjects[" + index + "].target = objects[" + idx + "];\n"
+			}
 		}
-		string += "}";
-		console.log(string);
+		string += "\t}";
+		return string;
 	},
 	recreateSidebar : function() {
 		this.sidebar.html("");
+		this.sidebar.append($("<button>Export</button>").click(function() {
+			Editor.cancelContext();
+			var propDiv = $("<div class='properties'></div>").appendTo(Editor.div);
+			Editor.context = propDiv;
+			var name, description;
+			propDiv.append($("<p></p>")
+				.append("<label>Name</label>")
+				.append(name = $("<input type='text'>"))
+			);
+			propDiv.append($("<p></p>")
+				.append("<label>Beschreibung</label>")
+				.append(description = $("<input type='text'>"))
+			);
+			propDiv.append($("<button>Export</button>").click(function() {
+				var link;
+				propDiv.append(link = $("<a download='level_" + name.val() + ".js' target='_blank'>Export</a>").attr("href", "data:application/octet-stream;base64," + 
+				btoa("module.exports = {\n" + 
+					"\tname : \"" + name.val() + "\",\n" + 
+					"\tdescription : \"" + description.val() + "\",\n" + 
+					"\tinit : " + Editor.export() + "\n" + 
+					"}"
+				)).click(function() {
+					link.remove();
+					Editor.cancelContext();
+				}));
+				link[0].click();
+			}));
+			
+			
+		}));
 		for(var key in this.objects) {
 			(function(obj) {
 				var id = $("<div class='id'>" + key + "</div>");
