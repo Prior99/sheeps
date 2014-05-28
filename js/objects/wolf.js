@@ -29,6 +29,7 @@ Wolf.prototype = {
 		this.pos = new vec(obj.pos[0], obj.pos[1]);
 	},
 	tick : function() {
+		var oldpos = this.pos;
 		this.dir.x = this.dir.y = 0;
 		var walls = Game.walls;
 		var sheeps = Game.sheeps;
@@ -51,7 +52,7 @@ Wolf.prototype = {
 				minSheep.die();
 			}
 			else {
-				this.dir = this.dir.add(minSheep.pos.sub(this.pos).normalize().mult(0.3));
+				this.dir = this.dir.add(minSheep.pos.sub(this.pos).normalize().mult(3));
 			}
 		}
 		/*
@@ -60,7 +61,7 @@ Wolf.prototype = {
 		var v = cursor.pos.sub(this.pos).mult(-1);
 		var len = v.length();
 		v = v.normalize();
-		var speed = (1/len)*50;
+		var speed = (1/(len/20 + 1))*Game.power;
 		this.dir = this.dir.add(v.mult(speed));
 		this.pos = this.pos.add(this.dir);
 		this.dir = this.dir.normalize();
@@ -72,10 +73,14 @@ Wolf.prototype = {
 			var wall = walls[key];
 			if(this.pos.x >= wall.pos.x - 4 && this.pos.x <= wall.pos.x + wall.size.x + 4 &&
 			 this.pos.y >= wall.pos.y - 4 && this.pos.y <= wall.pos.y + wall.size.y + 4) {
-				if(this.pos.x <= wall.pos.x) this.pos.x = wall.pos.x - 5;
+				/*if(this.pos.x <= wall.pos.x) this.pos.x = wall.pos.x - 5;
 				if(this.pos.x >= wall.pos.x + wall.size.x) this.pos.x = wall.pos.x + wall.size.x + 5;
 				if(this.pos.y <= wall.pos.y) this.pos.y = wall.pos.y - 5;
-				if(this.pos.y >= wall.pos.y + wall.size.y) this.pos.y = wall.pos.y + wall.size.y + 5;			
+				if(this.pos.y >= wall.pos.y + wall.size.y) this.pos.y = wall.pos.y + wall.size.y + 5;	*/
+				if(oldpos.x <= wall.pos.x) this.pos.x = wall.pos.x - 5;
+				if(oldpos.x >= wall.pos.x + wall.size.x) this.pos.x = wall.pos.x  + wall.size.x + 5;
+				if(oldpos.y <= wall.pos.y) this.pos.y = wall.pos.y - 5;
+				if(oldpos.y >= wall.pos.y + wall.size.y) this.pos.y = wall.pos.y  + wall.size.y + 5;
 			}
 		}
 	},
