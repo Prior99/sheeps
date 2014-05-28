@@ -339,16 +339,18 @@ var Editor = {
 	},
 	export : function() {
 		var sheeps = [];
+		var logics = [];
 		var string = "function() {\n";
 		string += "\t/*\n";
 		string += "\t * Create and initialize all objects\n";
 		string += "\t */\n";
 		string += "\n";
-		string += "\t var objects = [];\n";
+		string += "\tvar objects = [];\n";
 		for(var key in this.objects) {
 			var object = this.objects[key];
 			var name = object.name;
 			if(name == "Sheep") sheeps.push(object);
+			if(object.islogic) logics.push(object);
 			var index = key;
 			string += "\tobjects[" + index + "] = new " + name + "({\n";
 			for(var i in object.template) {
@@ -365,6 +367,7 @@ var Editor = {
 			}
 			string += "\t});\n";
 		}
+		string += "\n";
 		string += "\t/*\n";
 		string += "\t * Assign all sheeps to their respective herds\n";
 		string += "\t */\n";
@@ -394,6 +397,20 @@ var Editor = {
 			string += "\t\therds[" + herdnum + "][index].herd = herds[" + herdnum + "];\n";
 			string += "\t}\n";
 			herdnum++;
+		}
+		/*
+		 * Logics
+		 */
+		string += "\n";
+		string += "\t/*\n";
+		string += "\t * Build all connections between logic components\n";
+		string += "\t */\n";
+		string += "\n";
+		for(var i in logics) {
+			var logic = logics[i];
+			var idx = Editor.objects.indexOf(logic.target);
+			var index = Editor.objects.indexOf(logic);
+			string += "\tobjects[" + index + "].target = objects[" + index + "].properties.target = objects[" + idx + "];\n"
 		}
 		string += "}";
 		console.log(string);
